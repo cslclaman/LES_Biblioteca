@@ -14,6 +14,8 @@ var livroSchema=new Schema({
     edicao: { type: Number, required: true },
     genero: { type: String, required: false },
     numPaginas: { type: Number, required: false },
+    ano: { type: Number, required: false },
+    ativo: {type: Boolean, required: true, default: true }
     
 });
 
