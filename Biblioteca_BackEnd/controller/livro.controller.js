@@ -7,12 +7,20 @@ var express=require('express');
 var router=express.Router();
 
 router.route('/autor')
+    .get(function(req,res){
+        Autor.find(function(err,autores){
+            if(err)
+                res.send(err);
+            res.json(autores);
+        });
+    })
+
     .post(function(req,res){
         var autor=new Autor(req.body);
         autor.save(function(err){
             if(err)
                 res.send(err);
-            res.send({message:'Autor \"'+ autor.titulo +'\" Cadastrado'});
+            res.send({message:'Autor \"'+ autor.nome + " " + autor.sobrenome +'\" Cadastrado'});
         });
     })
 
@@ -44,7 +52,7 @@ router.route('/livros')
         });
     });
 
-router.route('/livro:id')
+router.route('/livro/:id')
     .get(function(req,res){ 
         Livro.findOne({_id:req.params.id},function(err, livro) {
             if(err)
