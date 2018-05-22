@@ -20,23 +20,29 @@ router.route('/autor')
         autor.save(function(err){
             if(err)
                 res.send(err);
-            res.send({message:'Autor \"'+ autor.nome + " " + autor.sobrenome +'\" Cadastrado'});
+            res.send({message:'Autor "'+ autor.nome + " " + autor.sobrenome +'" Cadastrado'});
         });
     })
 
     .delete(function(req,res){
+        Autor.find(function(err,autor){
+            if(err)
+                print(err);
+        });
         Autor.remove({
             _id: req.params.id
         }, function(err, texto) {
             if (err)
                 res.send(err);
-            res.json({ message: 'Deletado OK' });
+            res.json({ message: 'Autor "'+ autor.nome + " " + autor.sobrenome +'" Removido'});
         });
     });
 
 router.route('/livros')
     .get(function(req,res){
-        Livro.find(function(err,livros){
+        Livro.find({
+            ativo:true
+        }, function(err,livros){
             if(err)
                 res.send(err);
             res.json(livros);
@@ -48,13 +54,14 @@ router.route('/livros')
         livro.save(function(err){
             if(err)
                 res.send(err);
-            res.send({message:'Livro '+ livro.titulo +' Cadastrado'});
+            res.send({message:'Livro "'+ livro.titulo +'" Cadastrado'});
         });
     });
 
 router.route('/livro/:id')
     .get(function(req,res){ 
-        Livro.findOne({_id:req.params.id},function(err, livro) {
+        Livro.findOne({_idLivro:req.params.id},
+            function(err, livro) {
             if(err)
                 res.send(err);
             res.json(livro);
@@ -62,7 +69,7 @@ router.route('/livro/:id')
     })
 
     .put(function(req,res){
-        Livro.findOne({_id:req.params.id},function(err,livro){
+        Livro.findOne({_idLivro:req.params.id},function(err,livro){
             if(err)
                 res.send(err);
 
@@ -72,24 +79,24 @@ router.route('/livro/:id')
             livro.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Livro atualizado!' });
+                res.json({ message: 'Livro "'+ livro.titulo + '" atualizado' });
             });
 
         });
     })
 
     .delete(function(req,res){
-        Livro.findOne({_id:req.params.id},function(err,livro){
+        Livro.findOne({_idLivro:req.params.id},function(err,livro){
             if(err)
                 res.send(err);
-
-            livro[ativo]=false;
+        
+            livro.ativo=false;
+            
             livro.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Livro removido' });
+                res.json({ message: 'Livro "'+ livro.titulo + '" removido' });
             });
-
         });
     });
 
