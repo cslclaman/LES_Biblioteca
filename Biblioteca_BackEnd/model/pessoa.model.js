@@ -12,8 +12,11 @@ var pessoaSchema=new Schema({
     telefone: { type: String, required: false },
     email: { type: String, required: false },
     login: { type: String, required: true },
-    senha: { type: String, required: true }
+    senha: { type: String, required: true },
     
+    socio: { type: mongoose.Schema.Types.ObjectId, ref: 'Socio', required: false },
+    funcionario: { type: mongoose.Schema.Types.ObjectId, ref: 'Funcionario', required: false } 
+        
 });
 
 pessoaSchema.plugin(AutoIncrement, {inc_field: '_idPessoa'});
