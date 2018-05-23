@@ -14,9 +14,6 @@ var pessoaSchema=new Schema({
     login: { type: String, required: true },
     senha: { type: String, required: true },
     
-    socio: { type: mongoose.Schema.Types.ObjectId, ref: 'Socio', required: false },
-    funcionario: { type: mongoose.Schema.Types.ObjectId, ref: 'Funcionario', required: false } 
-        
 });
 
 pessoaSchema.plugin(AutoIncrement, {inc_field: '_idPessoa'});
