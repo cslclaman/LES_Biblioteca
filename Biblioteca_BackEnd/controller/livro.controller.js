@@ -74,7 +74,7 @@ router.route('/livro/:id')
                 res.send(err);
 
             for(prop in req.body){
-                    livro[prop]=req.body[prop];
+                livro[prop]=req.body[prop];
             }
             livro.save(function(err) {
                 if (err)
