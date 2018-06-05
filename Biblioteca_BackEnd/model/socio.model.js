@@ -4,6 +4,7 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 var socioSchema=new Schema({
 
+    pessoa: { type: mongoose.Schema.Types.ObjectId, ref: 'Pessoa', required: true },
     _idSocio: Number,
     tipo: { type:String, required: true }
 
