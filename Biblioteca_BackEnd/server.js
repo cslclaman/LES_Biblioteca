@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 var livros = require('./controller/livro.controller');
+var pessoas = require('./controller/pessoa.controller')
 //outros controllers
 
 var mongoose = require('mongoose');
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', livros);
+app.use('/api', pessoas);
 //Outros controllers aqui
 
 app.listen(3000, function(){
