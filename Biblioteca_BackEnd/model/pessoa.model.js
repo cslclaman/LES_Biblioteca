@@ -13,6 +13,8 @@ var pessoaSchema=new Schema({
     email: { type: String, required: false },
     login: { type: String, required: true },
     senha: { type: String, required: true },
+    tipoSocio: { type: String, required: true },
+    cargo: { type: String, required: false}
     
 });
 
