@@ -128,7 +128,13 @@ router.route('/login')
         Pessoa.findOne({login:req.body.login, senha:req.body.senha},function(err, pessoa){
             if (err)
                 res.send(err);
-            res.json(pessoa);
+            else {
+                if (pessoa == null)
+                    res.json({message: 'Nome de usuário ou senha inválidos'});
+                else
+                    res.json(pessoa);
+            }
+            
         })
     });
 
