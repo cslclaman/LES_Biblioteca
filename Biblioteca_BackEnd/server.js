@@ -27,5 +27,5 @@ app.use('/api', pessoas);
 //Outros controllers aqui
 
 app.listen(3000, function(){
-    console.log("Server listening on port: ", this.address().port);
+    console.log("Server running at http://localhost:", this.address().port);
 });

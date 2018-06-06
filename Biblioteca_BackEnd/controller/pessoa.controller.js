@@ -1,6 +1,4 @@
 var Pessoa=require('../model/pessoa.model');
-var Socio=require('../model/socio.model'); 
-var Funcionario=require('../model/funcionario.model');
 
 var express=require('express');
 var mongoose=require('mongoose');
