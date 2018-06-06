@@ -60,7 +60,7 @@ router.route('/socio/:id')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Sócio removido: ' + pessoa.nome });
+            res.json({ message: 'Sócio ' + req.params.id +' removido'});
         });
     });
 
@@ -119,7 +119,7 @@ router.route('/funcionario/:id')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Funcionário removido: ' + pessoa.nome });
+            res.json({ message: 'Funcionário ' + req.params.id +' removido' });
         });
     });
 
