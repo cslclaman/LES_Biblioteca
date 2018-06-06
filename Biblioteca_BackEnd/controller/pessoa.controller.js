@@ -124,7 +124,7 @@ router.route('/funcionario/:id')
     });
 
 router.route('/login')
-    .get(function(req,res){
+    .post(function(req,res){
         Pessoa.findOne({login:req.body.login, senha:req.body.senha},function(err, pessoa){
             if (err)
                 res.send(err);
