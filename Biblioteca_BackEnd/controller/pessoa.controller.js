@@ -18,33 +18,120 @@ router.route('/socios')
     })
 
     .post(function(req,res){
-        var pessoa=new Pessoa(req.body);
+        var pessoa = new Pessoa(req.body);
         pessoa._id = new mongoose.Types.ObjectId();
+        
         pessoa.save(function(err){
             if(err)
                 res.send(err);
-
-            var socio = new Socio(req.body);
-            socio.pessoa = pessoa._id;
-
-            socio.save(function(err){
-                if(err){
-                    Pessoa.remove({_id:pessoa._id},function(err2){});
-                    res.send(err+err2);
-                }
-
-                res.send({message:'Sócio cadastrado'});
-            });
+                
+            res.send({message:'Sócio cadastrado'});
         });
     });
 
-router.route('/s')
-    .get(function(req,res){
-        Socio.find(function(err,socios){
+router.route('/socio/:id')
+
+    .get(function(req,res){ 
+        Pessoa.findOne({_idPessoa:req.params.id},
+            function(err, pessoa) {
             if(err)
                 res.send(err);
-            res.json(socios);
+            res.json(pessoa);
         });
+    })
+
+    .put(function(req,res){
+        Pessoa.findOne({_idPessoa:req.params.id},function(err,pessoa){
+            if(err)
+                res.send(err);
+
+            for(prop in req.body){
+                pessoa[prop]=req.body[prop];
+            }
+            pessoa.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Sócio atualizado: '+ pessoa.nome});
+            });
+
+        });
+    })
+
+    .delete(function(req,res){
+        Pessoa.remove({_idPessoa: req.params.id}, function(err, pessoa) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Sócio removido: ' + pessoa.nome });
+        });
+    });
+
+router.route('/funcionarios')
+
+    .get(function(req,res){
+        Pessoa.find(function(err,pessoas){
+            if(err)
+                res.send(err);
+            res.json(pessoas);
+        });
+    })
+
+    .post(function(req,res){
+        var pessoa = new Pessoa(req.body);
+        pessoa._id = new mongoose.Types.ObjectId();
+        
+        pessoa.save(function(err){
+            if(err)
+                res.send(err);
+                
+            res.send({message:'Funcionario cadastrado: ' + pessoa.nome});
+        });
+    });
+
+router.route('/funcionario/:id')
+
+    .get(function(req,res){ 
+        Pessoa.findOne({_idPessoa:req.params.id},
+            function(err, pessoa) {
+            if(err)
+                res.send(err);
+            res.json(pessoa);
+        });
+    })
+
+    .put(function(req,res){
+        Pessoa.findOne({_idPessoa:req.params.id},function(err,pessoa){
+            if(err)
+                res.send(err);
+
+            for(prop in req.body){
+                pessoa[prop]=req.body[prop];
+            }
+            pessoa.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Funcionário atualizado: '+ pessoa.nome});
+            });
+
+        });
+    })
+
+    .delete(function(req,res){
+        Pessoa.remove({_idPessoa: req.params.id}, function(err, pessoa) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Funcionário removido: ' + pessoa.nome });
+        });
+    });
+
+router.route('/login')
+    .get(function(req,res){
+        Pessoa.findOne({login:req.body.login, senha:req.body.senha},function(err, pessoa){
+            if (err)
+                res.send(err);
+            res.json(pessoa);
+        })
     });
 
 module.exports=router;
