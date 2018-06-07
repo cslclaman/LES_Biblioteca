@@ -8,7 +8,16 @@ var router=express.Router();
 router.route('/socios')
 
     .get(function(req,res){
-        Pessoa.find(function(err,pessoas){
+
+        var options;
+        if (req.query.tipo == null){
+            options = {};
+        } else {
+            var tipo = req.query.tipo.toString().toLowerCase();
+            options = {tipo: tipo};
+        }
+
+        Pessoa.find(options, function(err,pessoas){
             if(err)
                 res.send(err);
             res.json(pessoas);
@@ -30,8 +39,7 @@ router.route('/socios')
 router.route('/socio/:id')
 
     .get(function(req,res){ 
-        Pessoa.findOne({_idPessoa:req.params.id},
-            function(err, pessoa) {
+        Pessoa.findOne({ _idPessoa:req.params.id }, function(err, pessoa) {
             if(err)
                 res.send(err);
             res.json(pessoa);
@@ -67,7 +75,7 @@ router.route('/socio/:id')
 router.route('/funcionarios')
 
     .get(function(req,res){
-        Pessoa.find(function(err,pessoas){
+        Pessoa.find({tipoSocio: "funcionario"}, function(err,pessoas){
             if(err)
                 res.send(err);
             res.json(pessoas);
@@ -89,7 +97,7 @@ router.route('/funcionarios')
 router.route('/funcionario/:id')
 
     .get(function(req,res){ 
-        Pessoa.findOne({_idPessoa:req.params.id},
+        Pessoa.findOne({ _idPessoa:req.params.id, tipoSocio: "funcionario"},
             function(err, pessoa) {
             if(err)
                 res.send(err);
