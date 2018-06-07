@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var dateFormat = require('dateformat');
 
 var livros = require('./controller/livro.controller');
+var autores = require('./controller/autor.controller');
 var pessoas = require('./controller/pessoa.controller');
 var reservas = require('./controller/reserva.controller');
 //outros controllers
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', livros);
+app.use('/api', autores);
 app.use('/api', pessoas);
 app.use('/api', reservas);
 //Outros controllers aqui

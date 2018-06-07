@@ -1,42 +1,9 @@
 
 var Livro=require('../model/livro.model');
-var Autor=require('../model/autor.model');
 
 var express=require('express');
 
 var router=express.Router();
-
-router.route('/autor')
-    .get(function(req,res){
-        Autor.find(function(err,autores){
-            if(err)
-                res.send(err);
-            res.json(autores);
-        });
-    })
-
-    .post(function(req,res){
-        var autor=new Autor(req.body);
-        autor.save(function(err){
-            if(err)
-                res.send(err);
-            res.send({message:'Autor "'+ autor.nome + " " + autor.sobrenome +'" Cadastrado'});
-        });
-    })
-
-    .delete(function(req,res){
-        Autor.find(function(err,autor){
-            if(err)
-                print(err);
-        });
-        Autor.remove({
-            _id: req.params.id
-        }, function(err, texto) {
-            if (err)
-                res.send(err);
-            res.json({ message: 'Autor "'+ autor.nome + " " + autor.sobrenome +'" Removido'});
-        });
-    });
 
 router.route('/livros')
     .get(function(req,res){
