@@ -1,8 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var dateFormat = require('dateformat');
 
 var livros = require('./controller/livro.controller');
-var pessoas = require('./controller/pessoa.controller')
+var pessoas = require('./controller/pessoa.controller');
+var reservas = require('./controller/reserva.controller');
 //outros controllers
 
 var mongoose = require('mongoose');
@@ -24,8 +26,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', livros);
 app.use('/api', pessoas);
+app.use('/api', reservas);
 //Outros controllers aqui
 
 app.listen(3000, function(){
-    console.log("Server running at http://localhost:", this.address().port);
+    console.log(dateFormat(new Date(), 'dd/mm/yyyy HH:MM:ss') + " - Server running at http://localhost:" + this.address().port);
 });
