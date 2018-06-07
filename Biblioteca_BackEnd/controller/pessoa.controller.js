@@ -49,7 +49,7 @@ router.route('/socio/:id')
             pessoa.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Sócio atualizado: '+ pessoa.nome});
+                res.json({ message: 'Sócio atualizado'});
             });
 
         });
@@ -60,7 +60,7 @@ router.route('/socio/:id')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Sócio ' + req.params.id +' removido'});
+            res.json({ message: 'Sócio removido'});
         });
     });
 
@@ -82,7 +82,7 @@ router.route('/funcionarios')
             if(err)
                 res.send(err);
                 
-            res.send({message:'Funcionario cadastrado: ' + pessoa.nome});
+            res.send({message:'Funcionario cadastrado'});
         });
     });
 
@@ -108,7 +108,7 @@ router.route('/funcionario/:id')
             pessoa.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Funcionário atualizado: '+ pessoa.nome});
+                res.json({ message: 'Funcionário atualizado'});
             });
 
         });
@@ -119,7 +119,7 @@ router.route('/funcionario/:id')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Funcionário ' + req.params.id +' removido' });
+            res.json({ message: 'Funcionário removido' });
         });
     });
 
