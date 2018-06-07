@@ -40,9 +40,19 @@ router.route('/autor')
 
 router.route('/livros')
     .get(function(req,res){
-        Livro.find({
-            ativo:true
-        }, function(err,livros){
+        var findParam;
+        var status = req.query.status == null? '' : req.query.status.toString().toLowerCase();
+        if (status == 'any' || status == 'all'){
+            findParam = {};
+        } else {
+            if (status == 'inativo'){
+                findParam = {ativo:false};
+            } else{
+                findParam = {ativo:true};
+            }
+        }
+
+        Livro.find(findParam, function(err,livros){
             if(err)
                 res.send(err);
             res.json(livros);
