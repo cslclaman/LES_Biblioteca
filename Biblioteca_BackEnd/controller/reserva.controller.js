@@ -6,7 +6,7 @@ var router=express.Router();
 router.route('/reservas')
 
     .get(function(req,res){
-        Reserva.find({livro: req.query.livro, pessoa: req.query.socio}, function(err,reservas){
+        Reserva.find(function(err,reservas){
             if(err)
                 res.send(err);
             res.json(reservas);
