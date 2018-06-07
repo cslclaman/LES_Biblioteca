@@ -17,6 +17,8 @@ router.route('/reservas')
         var reserva = new Reserva(req.body);
 
         reserva._id = new mongoose.Types.ObjectId();
+        if (reserva.dataReserva == null)
+            reserva.dataReserva = new Date();
         reserva.ativa = true;
 
         reserva.save(function(err){
