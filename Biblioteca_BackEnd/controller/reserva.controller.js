@@ -1,10 +1,6 @@
 var Reserva=require('../model/reserva.model');
-var Pessoa = require('../model/pessoa.model');
-var Livro = require('../model/livro.model');
-
 var express=require('express');
 var mongoose=require('mongoose');   
-
 var router=express.Router();
 
 router.route('/reservas')
