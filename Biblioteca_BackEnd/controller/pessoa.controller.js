@@ -14,7 +14,7 @@ router.route('/socios')
             options = {};
         } else {
             var tipo = req.query.tipo.toString().toLowerCase();
-            options = {tipo: tipo};
+            options = {tipoSocio: tipo};
         }
 
         Pessoa.find(options, function(err,pessoas){
@@ -39,7 +39,7 @@ router.route('/socios')
 router.route('/socio/:id')
 
     .get(function(req,res){ 
-        Pessoa.findOne({ _idPessoa:req.params.id }, function(err, pessoa) {
+        Pessoa.findOne({ _idPessoa:req.params.id, tipoSocio:"socio" }, function(err, pessoa) {
             if(err)
                 res.send(err);
             res.json(pessoa);
