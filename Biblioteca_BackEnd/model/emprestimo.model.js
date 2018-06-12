@@ -2,16 +2,21 @@ var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
-var reservaSchema = new Schema({
+var emprestimoSchema = new Schema({
 
-    _idReserva: Number,
+    _idEmprestimo: Number,
     socio: { type: mongoose.Schema.Types.ObjectId, required:true },
     livro: { type: mongoose.Schema.Types.ObjectId, required:true },
-    dataReserva: { type: Date, required: true },
-    ativa: {type: Boolean}
-    
+    status: {type:String, required: true},
+    dataReserva: { type: Date, required: false },
+    dataEmprestimo: [
+        { type: Date }
+    ],
+    dataDevolucaoPrevista: { type: Date, required: false},
+    dataDevolucao: { type: Date, required: false},
+        
 });
 
-reservaSchema.plugin(AutoIncrement, {inc_field: '_idReserva'});
+reservaSchema.plugin(AutoIncrement, {inc_field: '_idEmprestimo'});
 
-module.exports=mongoose.model('Reserva',reservaSchema);
+module.exports=mongoose.model('Emprestimo',emprestimoSchema);
