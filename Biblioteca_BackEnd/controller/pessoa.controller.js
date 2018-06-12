@@ -39,7 +39,7 @@ router.route('/socios')
 router.route('/socio/:id')
 
     .get(function(req,res){ 
-        Pessoa.findOne({ _idPessoa:req.params.id, tipoSocio:"socio" }, function(err, pessoa) {
+        Pessoa.findOne({ _idPessoa:req.params.id }, function(err, pessoa) {
             if(err)
                 res.send(err);
             res.json(pessoa);
