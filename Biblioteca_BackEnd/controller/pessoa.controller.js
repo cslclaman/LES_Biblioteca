@@ -85,6 +85,7 @@ router.route('/funcionarios')
     .post(function(req,res){
         var pessoa = new Pessoa(req.body);
         pessoa._id = new mongoose.Types.ObjectId();
+        pessoa.tipoSocio = "funcionario";
         
         pessoa.save(function(err){
             if(err)
