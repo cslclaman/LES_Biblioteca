@@ -88,29 +88,36 @@ router.route('/emprestimo/:id')
                 res.send(err);
             res.json(emprestimo);
         });
-    })
+    });
 
-    .put(function(req,res){
+router.route('/renovacao/:id')
+    .post(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
             if(err)
                 res.send(err);
 
-            var maxRenov = 3;
-            if (emprestimo.dataEmprestimo.length > maxRenov){
-                res.json({message:"Número de renovações máximo atingido"});
-            } else {
-                var DataRenovacao = req.body.dataRenovacao;
-                if (req.body.dataRenovacao == null)
-                    emprestimo.dataEmprestimo.push(new Date());
-                else
-                    emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
-                
-                emprestimo.save(function(err) {
-                    if (err)
-                        res.send(err);
-                    res.json({ message: 'Renovação concluída'});
-                });
-            }
+            Emprestimo.find({status: "reserva", ativo: true}, function(err, reservas){
+                if (err)
+                    res.send(err);
+                else {
+                    var maxRenov = 3;
+                    if (emprestimo.dataEmprestimo.length > maxRenov){
+                        res.json({message:"Número de renovações máximo atingido"});
+                    } else {
+                        var DataRenovacao = req.body.dataRenovacao;
+                        if (req.body.dataRenovacao == null)
+                            emprestimo.dataEmprestimo.push(new Date());
+                        else
+                            emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
+                        
+                        emprestimo.save(function(err) {
+                            if (err)
+                                res.send(err);
+                            res.json({ message: 'Renovação concluída'});
+                        });
+                    }
+                }
+            });
         });
     });
 
