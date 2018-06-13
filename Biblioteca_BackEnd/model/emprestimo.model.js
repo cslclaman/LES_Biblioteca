@@ -6,9 +6,7 @@ var emprestimoSchema = new Schema({
 
     _idEmprestimo: Number,
     socio: { type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Pessoa' },
-    livro: [
-        { type: mongoose.Schema.Types.ObjectId, required:true, ref:'Livro' }
-    ],
+    livro: { type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Livro' },
     status: {type:String, required: true},
     ativo: {type:Boolean, required: true, default: true},
     dataReserva: { type: Date, required: false },
