@@ -1,0 +1,81 @@
+AUTOR
+{
+    "nome": "Joao",
+    "sobrenome": "da Silva"
+}
+
+LIVRO
+{
+PARÂMETROS OBRIGATÓRIOS
+    "titulo": "Almas Negras",
+    "autor": [ 
+        "123456789"
+    ],
+    "editora": "LTC",
+
+PARÂMETROS OPCIONAIS ('ativo' vai ser 'true' por padrão)
+    "edicao": 2,
+    "genero": "Ficção",
+    "numPaginas": 500,
+    "ano": 1999,
+    "ativo": true
+}
+
+PESSOA (SÓCIO)
+{
+PARÂMETROS OBRIGATÓRIOS
+    "nome": "Ana Júlia",
+    "dataNascimento": "1994/12/12",
+    "cpf": "22222222222",
+    "login": "ana",
+    "senha": "123",
+    "tipoSocio": "aluno" OPÇÕES: aluno OU professor,
+
+PARÂMETROS OPCIONAIS
+    "endereco": "Rua das Flores, 50",
+    "telefone": "33331234",
+    "email": "anajulia@email.com",
+}
+
+PESSOA (FUNCIONÁRIO)
+{
+PARÂMETROS OBRIGATÓRIOS
+    "nome": "Ana Júlia",
+    "dataNascimento": "1994/12/12",
+    "cpf": "22222222222",
+    "login": "ana",
+    "senha": "123",
+    "cargo": "Arquivista",
+
+PARÂMETROS OPCIONAIS (tipoSocio sempre vai ser 'funcionario' nesse caso)
+    "endereco": "Rua das Flores, 50",
+    "telefone": "33331234",
+    "email": "anajulia@email.com",
+    "tipoSocio": "funcionario",
+}
+
+EMPRÉSTIMO (RESERVA)
+{
+    PARÂMETROS OBRIGATÓRIOS
+    "socio": "5a2792872",
+    "livro": ["8b980999a"], (obs. Reserva só pode ter um livro por vez)
+
+    PARÂMETROS OPCIONAIS
+    "status": "reserva", (sempre vai ser cadastrado como 'reserva')
+    "ativo": true, (sempre vai ser cadastrado como true)
+    "dataReserva": "2018/06/12", (sempre vai ser a data do sistema)
+}
+
+EMPRÉSTIMO (SEM RESERVA ANTES)
+{
+    PARÂMETROS OBRIGATÓRIOS
+    "socio": "5a2792872",
+    "livro": ["8b980999a"],
+
+    PARÂMETROS OPCIONAIS
+    "status": "emprestimo", (sempre vai ser cadastrado como 'reserva')
+    "ativo": true, (sempre vai ser cadastrado como true)
+    "dataEmprestimo": ["2018/06/12"], (sempre vai ser a data do sistema)
+    "dataRetorno": "2018/06/19", (sempre vai ser a data do sistema + qtd. dias permitidos para tipoSocio)
+}
+

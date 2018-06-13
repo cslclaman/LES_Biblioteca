@@ -24,6 +24,14 @@ router.route('/autores')
 
 router.route('/autor/:id')
 
+    .get(function(req,res){
+        Autor.findOne({_idAutor:req.params.id},function(err,autor){
+            if (err)
+                res.send(err);
+            res.json(autor);
+        });
+    })
+
     .put(function(req,res){
         Autor.findOne({_idAutor:req.params.id},function(err,autor){
             if(err)

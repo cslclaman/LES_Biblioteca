@@ -6,12 +6,11 @@ var livroSchema=new Schema({
 
     _idLivro: Number,
     titulo: { type: String, required: true },
-    autor: [ {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Autor'
-    } ],
+    autor: [ 
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Autor' }
+    ],
     editora: { type: String, required: true },
-    edicao: { type: Number, required: true },
+    edicao: { type: Number, required: false },
     genero: { type: String, required: false },
     numPaginas: { type: Number, required: false },
     ano: { type: Number, required: false },
