@@ -1,4 +1,4 @@
-var Reserva=require('../model/reserva.model');
+var Emprestimo=require('../model/emprestimo.model');
 var express=require('express');
 var mongoose=require('mongoose');   
 var router=express.Router();
@@ -6,7 +6,7 @@ var router=express.Router();
 router.route('/reservas')
 
     .get(function(req,res){
-        Reserva.find(function(err,reservas){
+        Emprestimo.find({status:"reserva"}, function(err,reservas){
             if(err)
                 res.send(err);
             res.json(reservas);
@@ -14,12 +14,13 @@ router.route('/reservas')
     })
 
     .post(function(req,res){
-        var reserva = new Reserva(req.body);
+        var reserva = new Emprestimo(req.body);
 
         reserva._id = new mongoose.Types.ObjectId();
+        reserva.status = "reserva";
+        reserva.ativo = true;
         if (reserva.dataReserva == null)
             reserva.dataReserva = new Date();
-        reserva.ativa = true;
 
         reserva.save(function(err){
             if(err)
@@ -31,53 +32,103 @@ router.route('/reservas')
 router.route('/reserva/:id')
 
     .get(function(req,res){ 
-        Reserva.findOne({_idReserva:req.params.id},
-            function(err, reserva) {
+        Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
             if(err)
                 res.send(err);
             res.json(reserva);
         });
     })
 
-    .put(function(req,res){
-        Reserva.findOne({_idReserva:req.params.id},function(err,reserva){
+    .delete(function(req,res){
+        Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
             if(err)
                 res.send(err);
 
-            for(prop in req.body){
-                reserva[prop]=req.body[prop];
-            }
+            reserva.ativo=false;
+
             reserva.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Reserva atualizada'});
+                res.json({ message: 'Reserva removida'});
             });
+        });
+    });
 
+router.route('/emprestimos')
+
+    .get(function(req,res){
+        Emprestimo.find({status:"emprestimo"}, function(err,emprestimos){
+            if(err)
+                res.send(err);
+            res.json(emprestimos);
         });
     })
 
-    .delete(function(req,res){
-        /* Em vez de excluir, essa função pode apenas deixar a reserva inativa.
-        
-        Reserva.findOne({_idReserva:req.params.id},function(err,reserva){
+    .post(function(req,res){
+        var emprestimo = new Emprestimo(req.body);
+
+        emprestimo._id = new mongoose.Types.ObjectId();
+        emprestimo.status = "emprestimo";
+        emprestimo.ativo = true;
+        if (emprestimo.dataEmprestimo == null)
+            emprestimo.dataEmprestimo = [new Date()];
+
+        emprestimo.save(function(err){
+            if(err)
+                res.send(err);
+            res.send({message:'Emprestimo cadastrado'});
+        });
+    });
+
+router.route('/emprestimo/:id')
+
+    .get(function(req,res){ 
+        Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, emprestimo) {
+            if(err)
+                res.send(err);
+            res.json(emprestimo);
+        });
+    })
+
+    .put(function(req,res){
+        Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
             if(err)
                 res.send(err);
 
-            reserva.ativa=false;
-
-            reserva.save(function(err) {
-                if (err)
-                    res.send(err);
-                res.json({ message: 'Reserva desativada'});
-            });
-
+            var maxRenov = 3;
+            if (emprestimo.dataEmprestimo.length > maxRenov){
+                res.json({message:"Número de renovações máximo atingido"});
+            } else {
+                var DataRenovacao = req.body.dataRenovacao;
+                if (req.body.dataRenovacao == null)
+                    emprestimo.dataEmprestimo.push(new Date());
+                else
+                    emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
+                
+                emprestimo.save(function(err) {
+                    if (err)
+                        res.send(err);
+                    res.json({ message: 'Renovação concluída'});
+                });
+            }
         });
-        */
-        Reserva.remove({_idReserva: req.params.id}, function(err, reserva) {
-            if (err)
+    });
+
+router.route('/devolucao/:id')
+
+    .post(function(req,res){
+        Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
+            if(err)
                 res.send(err);
 
-            res.json({ message: 'Reserva removida'});
+            emprestimo.status = "finalizado";
+            emprestimo.ativo = false;
+            emprestimo.dataDevolucao = new Date();
+            emprestimo.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Devolução efetuada'});
+            });
         });
     });
 
