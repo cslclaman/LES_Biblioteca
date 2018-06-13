@@ -5,14 +5,17 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 var emprestimoSchema = new Schema({
 
     _idEmprestimo: Number,
-    socio: { type: mongoose.Schema.Types.ObjectId, required:true },
-    livro: { type: mongoose.Schema.Types.ObjectId, required:true },
+    socio: { type: mongoose.Schema.Types.ObjectId, required:true, ref: 'Pessoa' },
+    livro: [
+        { type: mongoose.Schema.Types.ObjectId, required:true, ref:'Livro' }
+    ],
     status: {type:String, required: true},
+    ativo: {type:Boolean, required: true, default: true},
     dataReserva: { type: Date, required: false },
     dataEmprestimo: [
         { type: Date }
     ],
-    dataDevolucaoPrevista: { type: Date, required: false},
+    dataRetorno: { type: Date, required: false},
     dataDevolucao: { type: Date, required: false},
         
 });
