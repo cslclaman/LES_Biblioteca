@@ -102,23 +102,24 @@ router.route('/renovacao/:id')
                     res.send(err);
                 else {
                     if (reservas.length > 0){
-                        res.json({message:"Livro "});
-                    }
-                    var maxRenov = 3;
-                    if (emprestimo.dataEmprestimo.length > maxRenov){
-                        res.json({message:"Número de renovações máximo atingido"});
+                        res.json({message:"Livro com reserva não pode ser renovado"});
                     } else {
-                        var DataRenovacao = req.body.dataRenovacao;
-                        if (req.body.dataRenovacao == null)
-                            emprestimo.dataEmprestimo.push(new Date());
-                        else
-                            emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
-                        
-                        emprestimo.save(function(err) {
-                            if (err)
-                                res.send(err);
-                            res.json({ message: 'Renovação concluída'});
-                        });
+
+                        var maxRenov = 3;
+                        if (emprestimo.dataEmprestimo.length > maxRenov){
+                            res.json({message:"Número de renovações máximo atingido"});
+                        } else {
+                            if (req.body.dataRenovacao == null)
+                                emprestimo.dataEmprestimo.push(new Date());
+                            else
+                                emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
+                            
+                            emprestimo.save(function(err) {
+                                if (err)
+                                    res.send(err);
+                                res.json({ message: 'Renovação concluída'});
+                            });
+                        }
                     }
                 }
             });
