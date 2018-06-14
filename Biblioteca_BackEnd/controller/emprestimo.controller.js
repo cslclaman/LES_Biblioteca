@@ -104,11 +104,12 @@ router.route('/renovacao/:id')
                     if (reservas.length > 0){
                         res.json({message:"Livro com reserva não pode ser renovado"});
                     } else {
-                        if (emprestimo.dataEmprestimo.length > maxRenov){
-                            res.json({message:"Número de renovações máximo atingido"});
+                        var dataAtual = new Date();
+                        if (dataAtual > emprestimo.dataRetorno){
+                            res.json({message:"Livro com entrega atrasada nao pode ser renovado"});
                         } else {
                             if (req.body.dataRenovacao == null)
-                                emprestimo.dataEmprestimo.push(new Date());
+                                emprestimo.dataEmprestimo.push(dataAtual);
                             else
                                 emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
                             
