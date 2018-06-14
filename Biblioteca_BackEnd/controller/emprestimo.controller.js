@@ -104,8 +104,6 @@ router.route('/renovacao/:id')
                     if (reservas.length > 0){
                         res.json({message:"Livro com reserva não pode ser renovado"});
                     } else {
-
-                        var maxRenov = 3;
                         if (emprestimo.dataEmprestimo.length > maxRenov){
                             res.json({message:"Número de renovações máximo atingido"});
                         } else {
