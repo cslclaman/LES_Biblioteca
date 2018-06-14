@@ -1,10 +1,12 @@
 AUTOR
+http://localhost:3000/api/autores
 {
     "nome": "Joao",
     "sobrenome": "da Silva"
 }
 
 LIVRO
+http://localhost:3000/api/livros
 {
 PARÂMETROS OBRIGATÓRIOS
     "titulo": "Almas Negras",
@@ -22,6 +24,7 @@ PARÂMETROS OPCIONAIS ('ativo' vai ser 'true' por padrão)
 }
 
 PESSOA (SÓCIO)
+http://localhost:3000/api/socios
 {
 PARÂMETROS OBRIGATÓRIOS
     "nome": "Ana Júlia",
@@ -38,6 +41,7 @@ PARÂMETROS OPCIONAIS
 }
 
 PESSOA (FUNCIONÁRIO)
+http://localhost:3000/api/funcionarios
 {
 PARÂMETROS OBRIGATÓRIOS
     "nome": "Ana Júlia",
@@ -55,6 +59,7 @@ PARÂMETROS OPCIONAIS (tipoSocio sempre vai ser 'funcionario' nesse caso)
 }
 
 EMPRÉSTIMO (RESERVA)
+http://localhost:3000/api/reservas
 {
     PARÂMETROS OBRIGATÓRIOS
     "socio": "5a2792872",
@@ -67,6 +72,7 @@ EMPRÉSTIMO (RESERVA)
 }
 
 EMPRÉSTIMO (SEM RESERVA ANTES)
+http://localhost:3000/api/emprestimos
 {
     PARÂMETROS OBRIGATÓRIOS
     "socio": "5a2792872",
@@ -79,3 +85,9 @@ EMPRÉSTIMO (SEM RESERVA ANTES)
     "dataRetorno": "2018/06/19", (sempre vai ser a data do sistema + qtd. dias permitidos para tipoSocio)
 }
 
+LOGIN
+http://localhost:3000/api/login
+{
+    "login": "joao123",
+    "senha": "123"
+}
