@@ -1,4 +1,5 @@
 var Emprestimo=require('../model/emprestimo.model');
+var Pessoa = require('../model/pessoa.model');
 var express=require('express');
 var mongoose=require('mongoose');   
 var router=express.Router();
@@ -73,11 +74,26 @@ router.route('/emprestimos')
         if (emprestimo.dataEmprestimo == null)
             emprestimo.dataEmprestimo = [new Date()];
 
-        emprestimo.save(function(err){
-            if(err)
+        Pessoa.findOne({id:req.pessoa}, function(err, pessoa){
+            if (err || pessoa == null){
                 res.send(err);
-            res.send({message:'Emprestimo cadastrado'});
+            } else {
+                var dataRetorno = new Date();
+                if (pessoa.tipoSocio == "professor"){
+                    dataRetorno.setDate(dataRetorno.getDate() + 14);
+                } else {
+                    dataRetorno.setDate(dataRetorno.getDate() + 7);
+                }
+                emprestimo.dataRetorno = dataRetorno;
+                emprestimo.save(function(err){
+                    if(err)
+                        res.send(err);
+                    res.send({message:'Emprestimo cadastrado'});
+                });
+            }
         });
+
+        
     });
 
 router.route('/emprestimo/:id')
