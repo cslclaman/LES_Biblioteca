@@ -18,6 +18,6 @@ var emprestimoSchema = new Schema({
         
 });
 
-reservaSchema.plugin(AutoIncrement, {inc_field: '_idEmprestimo'});
+emprestimoSchema.plugin(AutoIncrement, {inc_field: '_idEmprestimo'});
 
 module.exports=mongoose.model('Emprestimo',emprestimoSchema);

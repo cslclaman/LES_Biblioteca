@@ -91,6 +91,7 @@ router.route('/emprestimo/:id')
     });
 
 router.route('/renovacao/:id')
+
     .post(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
             if(err)
@@ -100,6 +101,9 @@ router.route('/renovacao/:id')
                 if (err)
                     res.send(err);
                 else {
+                    if (reservas.length > 0){
+                        res.json({message:"Livro "});
+                    }
                     var maxRenov = 3;
                     if (emprestimo.dataEmprestimo.length > maxRenov){
                         res.json({message:"Número de renovações máximo atingido"});

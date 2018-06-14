@@ -5,7 +5,7 @@ var dateFormat = require('dateformat');
 var livros = require('./controller/livro.controller');
 var autores = require('./controller/autor.controller');
 var pessoas = require('./controller/pessoa.controller');
-var reservas = require('./controller/reserva.controller');
+var emprestimos = require('./controller/emprestimo.controller');
 //outros controllers
 
 var mongoose = require('mongoose');
@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', livros);
 app.use('/api', autores);
 app.use('/api', pessoas);
-app.use('/api', reservas);
+app.use('/api', emprestimos);
 //Outros controllers aqui
 
 app.listen(3000, function(){
