@@ -19,7 +19,8 @@
     "mongoose": "~4.10.0",
     "mongoose-sequence": "^4.0.0",
     "mongoose-unique-validator": "^1.0.6",
-    "node-offline-localhost": "^0.9.0"
+    "node-offline-localhost": "^0.9.0",
+    "dateformat": "^3.0.3"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"
