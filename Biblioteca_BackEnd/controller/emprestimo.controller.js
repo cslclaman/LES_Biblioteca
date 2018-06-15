@@ -113,7 +113,7 @@ router.route('/renovacao/:id')
             if(err)
                 res.send(err);
 
-            Emprestimo.find({status: "reserva", ativo: true}, function(err, reservas){
+            Emprestimo.find({status: "reserva", livro: emprestimo.livro, ativo: true}, function(err, reservas){
                 if (err)
                     res.send(err);
                 else {
@@ -129,10 +129,23 @@ router.route('/renovacao/:id')
                             else
                                 emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
                             
-                            emprestimo.save(function(err) {
-                                if (err)
+                            Pessoa.findOne({id:req.pessoa}, function(err, pessoa){
+                                if (err || pessoa == null){
                                     res.send(err);
-                                res.json({ message: 'Renovação concluída'});
+                                } else {
+                                    var dataRetorno = new Date();
+                                    if (pessoa.tipoSocio == "professor"){
+                                        dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                    } else {
+                                        dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                    }
+                                    emprestimo.dataRetorno = dataRetorno;
+                                    emprestimo.save(function(err){
+                                        if(err)
+                                            res.send(err);
+                                        res.send({message:'Renovação concluída'});
+                                    });
+                                }
                             });
                         }
                     }
