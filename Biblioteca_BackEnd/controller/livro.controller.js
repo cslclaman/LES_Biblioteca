@@ -7,19 +7,7 @@ var router=express.Router();
 
 router.route('/livros')
     .get(function(req,res){
-        var findParam;
-        var status = req.query.status == null? '' : req.query.status.toString().toLowerCase();
-        if (status == 'any' || status == 'all'){
-            findParam = {};
-        } else {
-            if (status == 'inativo'){
-                findParam = {ativo:false};
-            } else{
-                findParam = {ativo:true};
-            }
-        }
-
-        Livro.find(findParam, function(err,livros){
+        Livro.find(function(err,livros){
             if(err)
                 res.send(err);
             res.json(livros);
