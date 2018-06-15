@@ -77,7 +77,8 @@ router.route('/reserva/:id')
                                     reserva.save(function(err){
                                         if(err)
                                             res.send(err);
-                                        res.send({message:'Emprestimo cadastrado'});
+                                        else
+                                            res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
                                     });
                                 }
                             }
@@ -117,45 +118,57 @@ router.route('/emprestimos')
     .post(function(req,res){
         var emprestimo = new Emprestimo(req.body);
        
-        Pessoa.findOne({_id:req.socio}, function(err, pessoa){
+        Pessoa.findOne({_id:req.body.socio}, function(err, pessoa){
             if (err || pessoa == null){
-                res.send(err);
+                if (err)
+                    res.send(err);
+                else 
+                    res.json({message: "Sócio não encontrado"});
             } else {
                 Bloqueio.find({socio:pessoa._id,dataFimBloqueio: {$lt: new Date()}}, function(err,bloqueios){
                     if (err)
                         res.send(err);
                     else {
-                        if (bloqueios.length > 0){
+                        if (bloqueios.length > 0)
                             res.json({message : "Erro: Sócio bloqueado"});
-                        } else {
-                            emprestimo._id = new mongoose.Types.ObjectId();
-                            emprestimo.status = "emprestimo";
-                            emprestimo.ativo = true;
-                            if (req.body.dataEmprestimo == null)
-                                emprestimo.dataEmprestimo = [new Date()];
-                            else
-                                emprestimo.dataEmprestimo = [req.body.dataEmprestimo];
-
-                            var dataRetorno = new Date();
-                            if (pessoa.tipoSocio == "professor"){
-                                dataRetorno.setDate(dataRetorno.getDate() + 14);
-                            } else {
-                                dataRetorno.setDate(dataRetorno.getDate() + 7);
-                            }
-                            emprestimo.dataRetorno = dataRetorno;
-                            emprestimo.save(function(err){
-                                if(err)
+                        else {
+                            Emprestimo.find({ livro: req.body.livro, ativo: true }, function(err, emprestimos){
+                                if (err)
                                     res.send(err);
-                                res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
+                                else {
+                                    if (emprestimos.length > 0)
+                                        res.json({message: "Erro: Livro emprestado e não disponível"});
+                                    else {
+                                        emprestimo._id = new mongoose.Types.ObjectId();
+                                        emprestimo.status = "emprestimo";
+                                        emprestimo.ativo = true;
+                                        if (req.body.dataEmprestimo == null)
+                                            emprestimo.dataEmprestimo = [new Date()];
+                                        else
+                                            emprestimo.dataEmprestimo = [req.body.dataEmprestimo];
+
+                                        var dataRetorno = new Date();
+                                        if (pessoa.tipoSocio == "professor"){
+                                            dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                        } else {
+                                            dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                        }
+                                        emprestimo.dataRetorno = dataRetorno;
+
+                                        emprestimo.save(function(err){
+                                            if(err)
+                                                res.send(err);
+                                            else 
+                                                res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
+                                        });
+                                    }
+                                }
                             });
                         }
                     }
                 });
-               
             }
         });
-
-        
     });
 
 router.route('/emprestimo/:id')
@@ -186,16 +199,19 @@ router.route('/renovacao/:id')
                         if (dataAtual > emprestimo.dataRetorno){
                             res.json({message:"Livro com entrega atrasada nao pode ser renovado"});
                         } else {
+                            var dataRenov;
                             if (req.body.dataRenovacao == null)
-                                emprestimo.dataEmprestimo.push(dataAtual);
+                                dataRenov = dataAtual;
                             else
-                                emprestimo.dataEmprestimo.push(req.body.dataRenovacao);
+                                dataRenov = new Date(req.body.dataRenovacao);
                             
+                            emprestimo.dataEmprestimo.push(dataRenov);
+
                             Pessoa.findOne({id:req.pessoa}, function(err, pessoa){
                                 if (err || pessoa == null){
                                     res.send(err);
                                 } else {
-                                    var dataRetorno = new Date();
+                                    var dataRetorno = dataRenov;
                                     if (pessoa.tipoSocio == "professor"){
                                         dataRetorno.setDate(dataRetorno.getDate() + 14);
                                     } else {
@@ -220,54 +236,68 @@ router.route('/renovacao/:id')
 router.route('/devolucao/:id')
 
     .post(function(req,res){
+        
         Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
-            if(err)
-                res.send(err);
-            else {
+            if (err || emprestimo == null){
+                if (err)
+                    res.send(err);
+                else
+                    res.json({message: "Erro: emprestimo ID " + req.params.id + " não encontrado"});
+            } else {
                 var dataAtual = new Date();
-                var message, erro;
-
-                emprestimo.status = "finalizado";
-                emprestimo.ativo = false;
 
                 if (req.body.dataDevolucao == null)
                     emprestimo.dataDevolucao = dataAtual;
                 else
-                    emprestimo.dataDevolucao = req.body.dataDevolucao;
-                
-                if (dataAtual > emprestimo.dataRetorno){
-                    var diasDif = dataAtual.getDate() - emprestimo.dataRetorno.getDate();
-                    dataAtual.setDate(dataAtual.getDate() + diasDif);
+                    emprestimo.dataDevolucao = new Date(req.body.dataDevolucao);
 
-                    var bloqueio = new Bloqueio();
-                    bloqueio.socio = emprestimo.socio;
-                    bloqueio.emprestimo = emprestimo._id;
-                    dataInicioBloqueio = emprestimo.dataDevolucao;
-                    dataFimBloqueio = dataAtual;
-
-                    bloqueio.save(function(err){
-                        if (err){
-                            erro = err;
-                        } else {
-                            message = { message: 'Devolução efetuada com atraso - bloqueio de ' + diasDif + ' dias' };
-                        }
-                    });
-
-                } else {
-                    message = { message: 'Devolução efetuada'};
-                }
+                emprestimo.ativo = false;
 
                 emprestimo.save(function(err) {
                     if (err)
-                        erro = err;
+                        res.send(err);
+                    else {
+                        var entregue = false;
+
+                        if (emprestimo.dataDevolucao > emprestimo.dataRetorno){
+                            var diasDif = emprestimo.dataDevolucao.getDate() - emprestimo.dataRetorno.getDate();
+                            dataAtual.setDate(dataAtual.getDate() + diasDif);
+        
+                            var bloqueio = new Bloqueio();
+                            bloqueio.socio = emprestimo.socio;
+                            bloqueio.emprestimo = emprestimo._id;
+                            dataInicioBloqueio = emprestimo.dataDevolucao;
+                            dataFimBloqueio = dataAtual;
+        
+                            bloqueio.save(function(err){
+                                if (err){
+                                    erro = err;
+                                } else {
+                                    res.json({ message: 'Devolução efetuada com atraso - bloqueio de ' + diasDif + ' dias' });
+                                    entregue = true;
+                                }
+                            });
+                        } else {
+                            res.json({ message: 'Devolução efetuada no prazo'});
+                            entregue = true;
+                        }
+
+                        if (entregue){
+                            Emprestimo.find({livro: emprestimo.livro, status:"reserva", ativo:true}, {}, {sort: {dataReserva: -1}}, function(err,reservas){
+                                if (err) console.log(err);
+                                else {
+                                    if (reservas.length > 0){
+                                        var i = 0;
+                                        while (i < reservas.length){
+                                            console.log(dateformat(reservas[i].dataReserva,'dd/mm/yyyy'));
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    }
                 });
-                
-                if (erro)
-                    res.send(erro);
-                else
-                    res.json(message);
             }
-            
         });
     });
 
