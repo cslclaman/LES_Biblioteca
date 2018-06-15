@@ -31,7 +31,7 @@ router.route('/livros')
         livro.save(function(err){
             if(err)
                 res.send(err);
-            res.send({message:'Livro "'+ livro.titulo +'" Cadastrado'});
+            res.send({message:'Livro cadastrado'});
         });
     });
 
@@ -56,7 +56,7 @@ router.route('/livro/:id')
             livro.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Livro "'+ livro.titulo + '" atualizado' });
+                res.json({ message: 'Livro atualizado' });
             });
 
         });
@@ -72,7 +72,7 @@ router.route('/livro/:id')
             livro.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Livro "'+ livro.titulo + '" removido' });
+                res.json({ message: 'Livro removido' });
             });
         });
     });
