@@ -63,7 +63,7 @@ http://localhost:3000/api/reservas
 {
     PARÂMETROS OBRIGATÓRIOS
     "socio": "5a2792872",
-    "livro": ["8b980999a"], (obs. Reserva só pode ter um livro por vez)
+    "livro": "8b980999a",
 
     PARÂMETROS OPCIONAIS
     "status": "reserva", (sempre vai ser cadastrado como 'reserva')
@@ -76,13 +76,34 @@ http://localhost:3000/api/emprestimos
 {
     PARÂMETROS OBRIGATÓRIOS
     "socio": "5a2792872",
-    "livro": ["8b980999a"],
+    "livro": "8b980999a",
 
     PARÂMETROS OPCIONAIS
     "status": "emprestimo", (sempre vai ser cadastrado como 'reserva')
     "ativo": true, (sempre vai ser cadastrado como true)
-    "dataEmprestimo": ["2018/06/12"], (sempre vai ser a data do sistema)
-    "dataRetorno": "2018/06/19", (sempre vai ser a data do sistema + qtd. dias permitidos para tipoSocio)
+    "dataEmprestimo": ["2018/06/12"], (se não for passado, vai ser a data do sistema)
+    "dataRetorno": "2018/06/19", (sempre vai ser a dataEmprestimo + qtd. dias permitidos para tipoSocio)
+}
+
+EMPRÉSTIMO (DE RESERVA PARA EMPRÉSTIMO)
+http://localhost:3000/api/reserva/NNN (NNN é o _idEmprestimo)
+{
+    PARÂMETROS OPCIONAIS
+    "dataEmprestimo": ["2018/06/12"], (se não for passado, vai ser a data do sistema)
+}
+
+RENOVAÇÃO
+http://localhost:3000/api/renovacao/NNN (NNN é o _idEmprestimo)
+{
+    PARÂMETROS OPCIONAIS
+    "dataRenovacao": ["2018/06/12"], (se não for passado, vai ser a data do sistema)
+}
+
+DEVOLUÇÃO
+http://localhost:3000/api/devolução/NNN (NNN é o _idEmprestimo)
+{
+    PARÂMETROS OPCIONAIS
+    "dataDevolucao": ["2018/06/12"], (se não for passado, vai ser a data do sistema)
 }
 
 LOGIN
