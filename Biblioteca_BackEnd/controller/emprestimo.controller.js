@@ -41,6 +41,53 @@ router.route('/reserva/:id')
         });
     })
 
+    .post(function(req,res){
+        Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
+            if(err || !reserva.ativa){
+                if (err)
+                    res.send(err);
+                else
+                    res.json({message: "Erro: Reserva inativa"});
+            } else {
+                Pessoa.findOne({_id:reserva.socio}, function(err, pessoa){
+                    if (err || pessoa == null){
+                        res.send(err);
+                    } else {
+                        Bloqueio.find({socio:pessoa._id,dataFimBloqueio: {$lt: new Date()}}, function(err,bloqueios){
+                            if (err)
+                                res.send(err);
+                            else {
+                                if (bloqueios.length > 0){
+                                    res.json({message : "Erro: Sócio bloqueado"});
+                                } else {
+                                    reserva.status = "emprestimo";
+                                    if (req.body.dataEmprestimo == null)
+                                        reserva.dataEmprestimo = [new Date()];
+                                    else
+                                        reserva.dataEmprestimo = [req.body.dataEmprestimo];
+        
+                                    var dataRetorno = new Date();
+                                    if (pessoa.tipoSocio == "professor"){
+                                        dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                    } else {
+                                        dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                    }
+                                    reserva.dataRetorno = dataRetorno;
+                                    reserva.save(function(err){
+                                        if(err)
+                                            res.send(err);
+                                        res.send({message:'Emprestimo cadastrado'});
+                                    });
+                                }
+                            }
+                        });
+                       
+                    }
+                });
+            }
+        });
+    })
+    
     .delete(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
             if(err)
@@ -68,13 +115,7 @@ router.route('/emprestimos')
 
     .post(function(req,res){
         var emprestimo = new Emprestimo(req.body);
-
-        emprestimo._id = new mongoose.Types.ObjectId();
-        emprestimo.status = "emprestimo";
-        emprestimo.ativo = true;
-        if (emprestimo.dataEmprestimo == null)
-            emprestimo.dataEmprestimo = [new Date()];
-
+       
         Pessoa.findOne({_id:req.socio}, function(err, pessoa){
             if (err || pessoa == null){
                 res.send(err);
