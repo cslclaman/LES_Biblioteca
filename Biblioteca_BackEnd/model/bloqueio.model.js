@@ -7,8 +7,8 @@ var bloqueioSchema=new Schema({
     _idBloqueio: Number,
     socio: { type: mongoose.Schema.Types.ObjectId, ref: 'Pessoa', required: true },
     emprestimo: { type: mongoose.Schema.Types.ObjectId, ref: 'Emprestimo', required: true },
-    dataInicioBloqueio: {type: date, required: true},
-    dataFimBloqueio: {type: date, required: true},
+    dataInicioBloqueio: {type: Date, required: true},
+    dataFimBloqueio: {type: Date, required: true},
 
 });
 
