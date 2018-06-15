@@ -32,5 +32,6 @@ app.use('/api', emprestimos);
 app.use('/api', bloqueios);
 
 app.listen(3000, function(){
+    console.clear();
     console.log(dateformat(new Date(), 'dd/mm/yyyy HH:MM:ss') + " - Server running at http://localhost:" + this.address().port);
 });
