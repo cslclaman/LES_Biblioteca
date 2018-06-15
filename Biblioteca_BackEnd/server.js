@@ -6,7 +6,7 @@ var livros = require('./controller/livro.controller');
 var autores = require('./controller/autor.controller');
 var pessoas = require('./controller/pessoa.controller');
 var emprestimos = require('./controller/emprestimo.controller');
-//outros controllers
+var bloqueios = require('./controller/bloqueio.controller');
 
 var mongoose = require('mongoose');
 
@@ -29,7 +29,7 @@ app.use('/api', livros);
 app.use('/api', autores);
 app.use('/api', pessoas);
 app.use('/api', emprestimos);
-//Outros controllers aqui
+app.use('/api', bloqueios);
 
 app.listen(3000, function(){
     console.log(dateformat(new Date(), 'dd/mm/yyyy HH:MM:ss') + " - Server running at http://localhost:" + this.address().port);
