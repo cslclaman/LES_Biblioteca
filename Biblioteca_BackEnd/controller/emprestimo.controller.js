@@ -75,22 +75,41 @@ router.route('/emprestimos')
         if (emprestimo.dataEmprestimo == null)
             emprestimo.dataEmprestimo = [new Date()];
 
-        Pessoa.findOne({id:req.pessoa}, function(err, pessoa){
+        Pessoa.findOne({_id:req.socio}, function(err, pessoa){
             if (err || pessoa == null){
                 res.send(err);
             } else {
-                var dataRetorno = new Date();
-                if (pessoa.tipoSocio == "professor"){
-                    dataRetorno.setDate(dataRetorno.getDate() + 14);
-                } else {
-                    dataRetorno.setDate(dataRetorno.getDate() + 7);
-                }
-                emprestimo.dataRetorno = dataRetorno;
-                emprestimo.save(function(err){
-                    if(err)
+                Bloqueio.find({socio:pessoa._id,dataFimBloqueio: {$lt: new Date()}}, function(err,bloqueios){
+                    if (err)
                         res.send(err);
-                    res.send({message:'Emprestimo cadastrado'});
+                    else {
+                        if (bloqueios.length > 0){
+                            res.json({message : "Erro: Sócio bloqueado"});
+                        } else {
+                            emprestimo._id = new mongoose.Types.ObjectId();
+                            emprestimo.status = "emprestimo";
+                            emprestimo.ativo = true;
+                            if (req.body.dataEmprestimo == null)
+                                emprestimo.dataEmprestimo = [new Date()];
+                            else
+                                emprestimo.dataEmprestimo = [req.body.dataEmprestimo];
+
+                            var dataRetorno = new Date();
+                            if (pessoa.tipoSocio == "professor"){
+                                dataRetorno.setDate(dataRetorno.getDate() + 14);
+                            } else {
+                                dataRetorno.setDate(dataRetorno.getDate() + 7);
+                            }
+                            emprestimo.dataRetorno = dataRetorno;
+                            emprestimo.save(function(err){
+                                if(err)
+                                    res.send(err);
+                                res.send({message:'Emprestimo cadastrado'});
+                            });
+                        }
+                    }
                 });
+               
             }
         });
 
