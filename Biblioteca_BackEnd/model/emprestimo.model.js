@@ -16,7 +16,7 @@ var emprestimoSchema = new Schema({
     dataRetorno: { type: Date, required: false},
     dataDevolucao: { type: Date, required: false},
         
-});
+},{ usePushEach: true });
 
 emprestimoSchema.plugin(AutoIncrement, {inc_field: '_idEmprestimo'});
 

@@ -16,7 +16,7 @@ var pessoaSchema=new Schema({
     tipoSocio: { type: String, required: true },
     cargo: { type: String, required: false}
     
-});
+},{ usePushEach: true });
 
 pessoaSchema.plugin(AutoIncrement, {inc_field: '_idPessoa'});
 

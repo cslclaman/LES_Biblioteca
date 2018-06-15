@@ -16,7 +16,7 @@ var livroSchema=new Schema({
     ano: { type: Number, required: false },
     ativo: {type: Boolean, required: true, default: true }
     
-});
+},{ usePushEach: true });
 
 livroSchema.plugin(AutoIncrement, {inc_field: '_idLivro'});
 

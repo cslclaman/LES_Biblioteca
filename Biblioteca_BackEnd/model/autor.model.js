@@ -8,7 +8,7 @@ var autorSchema=new Schema({
     nome : String,
     sobrenome: String
     
-});
+},{ usePushEach: true });
 
 autorSchema.plugin(AutoIncrement, {inc_field: '_idAutor'});
 

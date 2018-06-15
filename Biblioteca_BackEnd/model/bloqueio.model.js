@@ -10,7 +10,7 @@ var bloqueioSchema=new Schema({
     dataInicioBloqueio: {type: Date, required: true},
     dataFimBloqueio: {type: Date, required: true},
 
-});
+},{ usePushEach: true });
 
 bloqueioSchema.plugin(AutoIncrement, {inc_field: '_idBloqueio'});
 
