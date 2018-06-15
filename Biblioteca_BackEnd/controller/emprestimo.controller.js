@@ -4,6 +4,7 @@ var Bloqueio = require('../model/bloqueio.model');
 var express=require('express');
 var mongoose=require('mongoose');   
 var router=express.Router();
+var dateformat = require('dateformat');
 
 router.route('/reservas')
 
@@ -43,7 +44,7 @@ router.route('/reserva/:id')
 
     .post(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
-            if(err || !reserva.ativa){
+            if(err || !reserva.ativo){
                 if (err)
                     res.send(err);
                 else
@@ -145,7 +146,7 @@ router.route('/emprestimos')
                             emprestimo.save(function(err){
                                 if(err)
                                     res.send(err);
-                                res.send({message:'Emprestimo cadastrado'});
+                                res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
                             });
                         }
                     }
@@ -204,7 +205,8 @@ router.route('/renovacao/:id')
                                     emprestimo.save(function(err){
                                         if(err)
                                             res.send(err);
-                                        res.send({message:'Renovação concluída'});
+                                        else
+                                            res.send({message:'Renovação efetuada - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
                                     });
                                 }
                             });
@@ -227,8 +229,12 @@ router.route('/devolucao/:id')
 
                 emprestimo.status = "finalizado";
                 emprestimo.ativo = false;
-                emprestimo.dataDevolucao = dataAtual;
 
+                if (req.body.dataDevolucao == null)
+                    emprestimo.dataDevolucao = dataAtual;
+                else
+                    emprestimo.dataDevolucao = req.body.dataDevolucao;
+                
                 if (dataAtual > emprestimo.dataRetorno){
                     var diasDif = dataAtual.getDate() - emprestimo.dataRetorno.getDate();
                     dataAtual.setDate(dataAtual.getDate() + diasDif);
