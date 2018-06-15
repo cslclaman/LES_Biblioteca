@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var dateFormat = require('dateformat');
+var dateformat = require('dateformat');
 
 var livros = require('./controller/livro.controller');
 var autores = require('./controller/autor.controller');
@@ -32,5 +32,5 @@ app.use('/api', emprestimos);
 //Outros controllers aqui
 
 app.listen(3000, function(){
-    console.log(dateFormat(new Date(), 'dd/mm/yyyy HH:MM:ss') + " - Server running at http://localhost:" + this.address().port);
+    console.log(dateformat(new Date(), 'dd/mm/yyyy HH:MM:ss') + " - Server running at http://localhost:" + this.address().port);
 });
