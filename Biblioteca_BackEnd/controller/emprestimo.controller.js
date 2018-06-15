@@ -1,5 +1,6 @@
 var Emprestimo=require('../model/emprestimo.model');
 var Pessoa = require('../model/pessoa.model');
+var Bloqueio = require('../model/bloqueio.model');
 var express=require('express');
 var mongoose=require('mongoose');   
 var router=express.Router();
@@ -160,15 +161,47 @@ router.route('/devolucao/:id')
         Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
             if(err)
                 res.send(err);
+            else {
+                var dataAtual = new Date();
+                var message, erro;
 
-            emprestimo.status = "finalizado";
-            emprestimo.ativo = false;
-            emprestimo.dataDevolucao = new Date();
-            emprestimo.save(function(err) {
-                if (err)
-                    res.send(err);
-                res.json({ message: 'Devolução efetuada'});
-            });
+                emprestimo.status = "finalizado";
+                emprestimo.ativo = false;
+                emprestimo.dataDevolucao = dataAtual;
+
+                if (dataAtual > emprestimo.dataRetorno){
+                    var diasDif = dataAtual.getDate() - emprestimo.dataRetorno.getDate();
+                    dataAtual.setDate(dataAtual.getDate() + diasDif);
+
+                    var bloqueio = new Bloqueio();
+                    bloqueio.socio = emprestimo.socio;
+                    bloqueio.emprestimo = emprestimo._id;
+                    dataInicioBloqueio = emprestimo.dataDevolucao;
+                    dataFimBloqueio = dataAtual;
+
+                    bloqueio.save(function(err){
+                        if (err){
+                            erro = err;
+                        } else {
+                            message = { message: 'Devolução efetuada com atraso - bloqueio de ' + diasDif + ' dias' };
+                        }
+                    });
+
+                } else {
+                    message = { message: 'Devolução efetuada'};
+                }
+
+                emprestimo.save(function(err) {
+                    if (err)
+                        erro = err;
+                });
+                
+                if (erro)
+                    res.send(erro);
+                else
+                    res.json(message);
+            }
+            
         });
     });
 
