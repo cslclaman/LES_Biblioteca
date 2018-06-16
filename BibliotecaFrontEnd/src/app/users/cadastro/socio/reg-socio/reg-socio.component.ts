@@ -26,6 +26,11 @@ export class RegSocioComponent implements OnInit {
   }
 
   ngOnInit() {
+    let stream = this.http.get('http://localhost:3000/api/socios');
+    stream.subscribe(res => {
+      var teste = res.json();
+      console.log(res.json());
+    });
   }
 
   LPessoa = new pessoa();

@@ -10,31 +10,42 @@ import { autor } from 'app/autor';
 
 export class RegLivroComponent implements OnInit {
   titulo: string;
-  autor: number;
+  autor: autor;
+  idautor: number;
   editora: string;
   edicao: number;
   genero: string;
   numPaginas: number;
   ano: number;
-  autores = [];
+  autores: autor[];
+  selected: any;
   http: Http;
-
   constructor(http: Http) { 
     this.http = http;
-    let stream = http.get('http://localhost:3000/api/autores');
+let stream = this.http.get('http://localhost:3000/api/autores');
     stream.subscribe(res => {
-      this.autores = res.json();
+      this.autores = (res.json());
+      //console.log(res.json());
+      console.log(this.autores);
     });
   }
 
   ngOnInit() {
-
+    
   }
   LLivro = new Clivro();
-
-  cadastrarLivro(event) {
+  cadastrarLivro(event, aut) {
     event.preventDefault();
-    
+    console.log(this.selected);
+
+    for(var i = 0; i < this.autores.length; i++)
+    {
+      if(this.autores[0]._idAutor == this.selected)
+      {
+        this.autor = this.autores[0];
+      }
+    }
+
     this.LLivro.titulo = this.titulo;
     this.LLivro.autor = this.autor;
     this.LLivro.editora = this.editora;
@@ -52,13 +63,14 @@ export class RegLivroComponent implements OnInit {
         let resultado = res.json();
         console.log(resultado);
     });
-    console.log(this.LLivro);
+    //console.log(this.LLivro);
   }
+
 }
 
 export class Clivro {
   @Input() titulo: string;
-  @Input() autor: number;
+  @Input() autor: autor;
   @Input() editora: string;
   @Input() edicao: number;
   @Input() genero: string;

@@ -25,6 +25,11 @@ export class RegFuncionarioComponent implements OnInit {
   }
 
   ngOnInit() {
+    let stream = this.http.get('http://localhost:3000/api/funcionarios');
+    stream.subscribe(res => {
+      var teste = res.json();
+      console.log(res.json());
+    });
   }
 
   LPessoa = new pessoa();

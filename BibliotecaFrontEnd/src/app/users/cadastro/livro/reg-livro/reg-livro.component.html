@@ -1,14 +1,15 @@
 <h1>Cadastro de Livros</h1>
-<form action="" (submit)="cadastrarLivro($event)">
+<form action="" (submit)="cadastrarLivro($event, aut)">
   <div class="container">
     <p>
       <label for="titulo">Titulo*</label>
       <input class="form-control" name="titulo" [(ngModel)]="titulo" type="text">
     </p>
     <p>
-      <label for="autor">Autor*</label>
-      <select [(ngModel)]="autor">
-        <option *ngFor="let a of autores" [ngValue]="a">{{a.name}}</option>
+      <label ifor="autor">Autor*</label>
+      <select [(ngModel)]="selected" name="selected"for="autor">
+        <option *ngFor="let aut of autores" [value]="aut._idAutor">{{aut.sobrenome + " " + aut.nome}} </option>
+       <!-- <option *ngFor="" [value]="">{{}}</option>-->
       </select>
     </p>
     <p>
