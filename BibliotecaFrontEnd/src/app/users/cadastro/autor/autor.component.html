@@ -1,0 +1,15 @@
+<form action="" (submit)="cadastrarAutor($event)">
+  <div class="container">
+    <p>
+      <label for="nome">Nome:*</label>
+      <input class="form-control" name="nome" [(ngModel)]="nome" type="text">
+  </p>
+  <p>
+      <label for="dataNascimento">Sobrenome:*</label>
+      <input class="form-control" name="sobrenome" [(ngModel)]="sobrenome" type="text">
+  </p>
+  <p>
+    <button type="submit" class="btn-primary">Cadastrar</button>
+</p>
+  </div>
+</form>

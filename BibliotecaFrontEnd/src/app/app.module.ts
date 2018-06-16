@@ -8,6 +8,11 @@ import { LoginComponent } from './users/login/login.component';
 import { RegFuncionarioComponent } from './users/cadastro/funcionario/reg-funcionario/reg-funcionario.component';
 import { RegLivroComponent } from './users/cadastro/livro/reg-livro/reg-livro.component';
 import { RegSocioComponent } from './users/cadastro/socio/reg-socio/reg-socio.component';
+import { MenuComponent } from './users/menu/menu.component';
+import { routing } from './app.routes';
+import { AutorComponent } from './users/cadastro/autor/autor.component';
+import { ReservaComponent } from './users/processos/reserva/reserva.component';
+import { EmprestimoComponent } from './users/processos/emprestimo/emprestimo.component';
 
 @NgModule({
   declarations: [
@@ -15,12 +20,17 @@ import { RegSocioComponent } from './users/cadastro/socio/reg-socio/reg-socio.co
     LoginComponent,
     RegFuncionarioComponent,
     RegLivroComponent,
-    RegSocioComponent
+    RegSocioComponent,
+    MenuComponent,
+    AutorComponent,
+    ReservaComponent,
+    EmprestimoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routing
   ],
   providers: [],
   bootstrap: [AppComponent]

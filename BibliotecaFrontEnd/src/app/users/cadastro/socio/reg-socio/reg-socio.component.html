@@ -1,47 +1,44 @@
 <h1>Cadastro de Socios</h1>
-<div class="container">
-  <p>
-    <label for="nome">Nome:*</label>
-    <input class="form-control" type="text">
-</p>
-
-<p>
-    <label for="dataNascimento">Data de nacsimento:*</label>
-    <input class="form-control" type="text">
-</p>
-
-<p>
-    <label for="cpf">CPF:*</label>
-    <input class="form-control" type="text">
-</p>
-
-<p>
-    <label for="endereco">Endereco:*</label>
-    <input class="form-control" type="text">
-</p>
-
-<p>
-    <label for="telefone">Telefone:*</label>
-    <input class="form-control" type="text">
-</p>
-
-<p>
-    <label for="email">E-mail:*</label>
-    <input class="form-control" type="text">
-</p>
-
-<p>
-    <label for="login">Login:*</label>
-    <input class="form-control" type="text">
-</p>
-
-<p>
-    <label for="senha">Senha:*</label>
-    <input class="form-control" type="password">
-</p>
-
-<p>
-    <label for="tipoSocio">Tipo:*</label>
-    <input class="form-control" type="text">
-</p>
-</div>
+<form action="" (submit)="cadastrarSocio($event)">
+    <div class="container">
+        <p>
+            <label for="nome">Nome:*</label>
+            <input class="form-control" name="nome" [(ngModel)]="nome" type="text">
+        </p>
+        <p>
+            <label for="dataNascimento">Data de nacsimento:*</label>
+            <input class="form-control" name="dataNascimento" [(ngModel)]="dataNascimento" type="text">
+        </p>
+        <p>
+            <label for="cpf">CPF:*</label>
+            <input class="form-control" name="cpf" [(ngModel)]="cpf" type="text">
+        </p>
+        <p>
+            <label for="endereco">Endereco:*</label>
+            <input class="form-control" name="endereco" [(ngModel)]="endereco" type="text">
+        </p>
+        <p>
+            <label for="telefone">Telefone:*</label>
+            <input class="form-control" name="telefone" [(ngModel)]="telefone" type="text">
+        </p>
+        <p>
+            <label for="email">E-mail:*</label>
+            <input class="form-control" name="email" [(ngModel)]="email" type="text">
+        </p>
+        <p>
+            <label for="login">Login:*</label>
+            <input class="form-control" name="login" [(ngModel)]="login" type="text">
+        </p>
+        <p>
+            <label for="senha">Senha:*</label>
+            <input class="form-control" name="senha" [(ngModel)]="senha" type="password">
+        </p>
+        <p>
+            <label for="tipoSocio">Tipo:*</label>
+            <input class="form-control" name="tipoSocio" [(ngModel)]="tipoSocio" type="text">
+        </p>
+        <p>
+            <button type="submit" class="btn-primary">Cadastrar</button>
+          </p>
+    </div>
+</form>

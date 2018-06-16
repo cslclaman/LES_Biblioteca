@@ -1,17 +1,15 @@
 <div class="container cont-align">
-    <form action="">
+    <form action="" (submit)="login($event)">
       <p>
         <label for="login">Login</label>
-        <input class="form-control" type="text">
+        <input class="form-control" name="username" [(ngModel)]="username" type="text">
       </p>
-  
       <p>
         <label for="senha">Senha</label>
-        <input class="form-control" type="password">
+        <input class="form-control" name="password" [(ngModel)]="password" type="password">
       </p>
-  
       <p>
-        <button class="btn-primary">Login</button>
+        <button type="submit" class="btn-primary">Login</button>
       </p>
     </form>
   
