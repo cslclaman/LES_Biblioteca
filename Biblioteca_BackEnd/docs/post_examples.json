@@ -14,13 +14,14 @@ PARÂMETROS OBRIGATÓRIOS
         "123456789"
     ],
     "editora": "LTC",
-
+    
 PARÂMETROS OPCIONAIS ('ativo' vai ser 'true' por padrão)
     "edicao": 2,
     "genero": "Ficção",
     "numPaginas": 500,
     "ano": 1999,
-    "ativo": true
+    "ativo": true,
+    "localizacao": "Prateleira 2A"
 }
 
 PESSOA (SÓCIO)
