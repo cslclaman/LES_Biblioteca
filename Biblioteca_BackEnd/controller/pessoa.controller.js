@@ -28,11 +28,21 @@ router.route('/socios')
         var pessoa = new Pessoa(req.body);
         pessoa._id = new mongoose.Types.ObjectId();
         
-        pessoa.save(function(err){
-            if(err)
+        Pessoa.findOne({cpf: pessoa.cpf}, function(outro, err){
+            if (err)
                 res.send(err);
-                
-            res.send({message:'Sócio cadastrado'});
+            else {
+                if (!outro){
+                    res.send({message: "Erro: sócio já existe com CPF informado"});
+                } else {
+                    pessoa.save(function(err){
+                        if(err)
+                            res.send(err);
+                            
+                        res.send({message:'Sócio cadastrado'});
+                    });
+                }
+            }
         });
     });
 
@@ -87,11 +97,21 @@ router.route('/funcionarios')
         pessoa._id = new mongoose.Types.ObjectId();
         pessoa.tipoSocio = "funcionario";
         
-        pessoa.save(function(err){
-            if(err)
+        Pessoa.findOne({cpf: pessoa.cpf}, function(outro, err){
+            if (err)
                 res.send(err);
-                
-            res.send({message:'Funcionario cadastrado'});
+            else {
+                if (!outro){
+                    res.send({message: "Erro: funcionário já existe com CPF informado"});
+                } else {
+                    pessoa.save(function(err){
+                        if(err)
+                            res.send(err);
+                            
+                        res.send({message:'Funcionario cadastrado'});
+                    });
+                }
+            }
         });
     });
 
