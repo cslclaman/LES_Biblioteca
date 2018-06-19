@@ -67,18 +67,22 @@ router.route('/reserva/:id')
                                     else
                                         reserva.dataEmprestimo = [req.body.dataEmprestimo];
         
-                                    var dataRetorno = new Date();
-                                    if (pessoa.tipoSocio == "professor"){
-                                        dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                    if (req.body.dataRetorno == null){
+                                        var dataRetorno = new Date();
+                                        if (pessoa.tipoSocio == "professor"){
+                                            dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                        } else {
+                                            dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                        }
+                                        reserva.dataRetorno = dataRetorno;
                                     } else {
-                                        dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                        reserva.dataRetorno = req.body.dataRetorno;
                                     }
-                                    reserva.dataRetorno = dataRetorno;
                                     reserva.save(function(err){
                                         if(err)
                                             res.send(err);
                                         else
-                                            res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
+                                            res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(reserva.dataRetorno, 'dd/mm/yyyy')});
                                     });
                                 }
                             }
@@ -147,19 +151,21 @@ router.route('/emprestimos')
                                         else
                                             emprestimo.dataEmprestimo = [req.body.dataEmprestimo];
 
-                                        var dataRetorno = new Date();
-                                        if (pessoa.tipoSocio == "professor"){
-                                            dataRetorno.setDate(dataRetorno.getDate() + 14);
-                                        } else {
-                                            dataRetorno.setDate(dataRetorno.getDate() + 7);
-                                        }
-                                        emprestimo.dataRetorno = dataRetorno;
+                                        if (req.body.dataRetorno == null){
+                                            var dataRetorno = new Date();
+                                            if (pessoa.tipoSocio == "professor"){
+                                                dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                            } else {
+                                                dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                            }
+                                            emprestimo.dataRetorno = dataRetorno;
+                                        } 
 
                                         emprestimo.save(function(err){
                                             if(err)
                                                 res.send(err);
                                             else 
-                                                res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
+                                                res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(emprestimo.dataRetorno, 'dd/mm/yyyy')});
                                         });
                                     }
                                 }
