@@ -10,7 +10,8 @@ router.route('/livros')
         Livro.find(function(err,livros){
             if(err)
                 res.send(err);
-            res.json(livros);
+            else
+                res.json(livros);
        });
     })
 
@@ -25,7 +26,7 @@ router.route('/livros')
 
 router.route('/livros/:status')
     .get(function(req,res){
-        Livro.find({status:req.params.status},function(err,livros){
+        Livro.find({status: req.params.status},function(err,livros){
             if(err)
                 res.send(err);
             else
