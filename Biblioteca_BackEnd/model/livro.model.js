@@ -14,7 +14,8 @@ var livroSchema=new Schema({
     genero: { type: String, required: false },
     numPaginas: { type: Number, required: false },
     ano: { type: Number, required: false },
-    ativo: {type: Boolean, required: true, default: true }
+    status: {type: String, required: true, default: "disponivel" },
+    localizacao: {type: String, required: false}
     
 },{ usePushEach: true });
 

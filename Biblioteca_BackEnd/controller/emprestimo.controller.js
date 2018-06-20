@@ -1,10 +1,33 @@
 var Emprestimo=require('../model/emprestimo.model');
 var Pessoa = require('../model/pessoa.model');
 var Bloqueio = require('../model/bloqueio.model');
+var Livro = require('../model/livro.model');
 var express=require('express');
 var mongoose=require('mongoose');   
 var router=express.Router();
 var dateformat = require('dateformat');
+
+function numReservas(idLivro){
+    Emprestimo.find({status:"reserva", livro:idLivro, ativo:true}, function(err,reservas){
+        if(err){
+            console.log(err);
+            return -1;
+        } else{
+            return reservas.length;
+        }
+    });
+}
+
+function numEmprestimos(idLivro){
+    Emprestimo.find({status:"emprestimo", livro:idLivro}, function(err,reservas){
+        if(err){
+            console.log(err);
+            return -1;
+        } else{
+            return reservas.length;
+        }
+    });
+}
 
 router.route('/reservas')
 
@@ -28,7 +51,21 @@ router.route('/reservas')
         reserva.save(function(err){
             if(err)
                 res.send(err);
-            res.send({message:'Reserva cadastrada'});
+            else {
+                Livro.findOne({_id: reserva.livro}, function (err, livro){
+                    if (err)
+                        res.send(err);
+                    else {
+                        livro.status = "reservado";
+                        livro.save(function(err){
+                            if (err)
+                                res.send(err);
+                            else
+                                res.send({message:'Reserva cadastrada - posição na fila: ' + numReservas(livro._id) });
+                        });
+                    }
+                });
+            }
         });
     });
 
@@ -67,18 +104,36 @@ router.route('/reserva/:id')
                                     else
                                         reserva.dataEmprestimo = [req.body.dataEmprestimo];
         
-                                    var dataRetorno = new Date();
-                                    if (pessoa.tipoSocio == "professor"){
-                                        dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                    if (req.body.dataRetorno == null){
+                                        var dataRetorno = new Date();
+                                        if (pessoa.tipoSocio == "professor"){
+                                            dataRetorno.setDate(dataRetorno.getDate() + 14);
+                                        } else {
+                                            dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                        }
+                                        reserva.dataRetorno = dataRetorno;
                                     } else {
-                                        dataRetorno.setDate(dataRetorno.getDate() + 7);
+                                        reserva.dataRetorno = req.body.dataRetorno;
                                     }
-                                    reserva.dataRetorno = dataRetorno;
                                     reserva.save(function(err){
                                         if(err)
                                             res.send(err);
-                                        else
-                                            res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
+                                        else {
+                                            Livro.findOne({_id: reserva.livro}, function (err, livro){
+                                                if (err)
+                                                    res.send(err);
+                                                else {
+                                                    livro.status = "emprestado";
+                                                    livro.save(function(err){
+                                                    if (err)
+                                                        res.send(err);
+                                                    else
+                                                        res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(reserva.dataRetorno, 'dd/mm/yyyy')});
+                                                    });
+                                                }
+                                            });
+                                            
+                                        }                                            
                                     });
                                 }
                             }
@@ -100,7 +155,30 @@ router.route('/reserva/:id')
             reserva.save(function(err) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Reserva removida'});
+                else {
+                    Livro.findOne({_id: reserva.livro}, function (err, livro){
+                        if (err)
+                            res.send(err);
+                        else {
+                            var nr = numReservas(livro._id);
+                            if (nr < 0)
+                                res.json({message:"Erro: reservas não encontradas para livro"});
+                            else {
+                                if (nr == 0)
+                                    livro.status = "disponivel";
+                                else
+                                    livro.status = "reservado";
+
+                                livro.save(function(err){
+                                    if (err)
+                                        res.send(err);
+                                    else
+                                        res.json({ message: 'Reserva removida'});
+                                });
+                            }
+                        }
+                    });
+                }
             });
         });
     });
@@ -132,21 +210,22 @@ router.route('/emprestimos')
                         if (bloqueios.length > 0)
                             res.json({message : "Erro: Sócio bloqueado"});
                         else {
-                            Emprestimo.find({ livro: req.body.livro, ativo: true }, function(err, emprestimos){
-                                if (err)
-                                    res.send(err);
+                            var ne = numEmprestimos(emprestimo.livro);
+                            if (ne < 0)
+                                res.json({message:"Erro: reservas não encontradas para livro"}); 
+                            else{
+                                if (ne == 0)
+                                    res.json({message: "Erro: Livro emprestado e não disponível"});
                                 else {
-                                    if (emprestimos.length > 0)
-                                        res.json({message: "Erro: Livro emprestado e não disponível"});
-                                    else {
-                                        emprestimo._id = new mongoose.Types.ObjectId();
-                                        emprestimo.status = "emprestimo";
-                                        emprestimo.ativo = true;
-                                        if (req.body.dataEmprestimo == null)
-                                            emprestimo.dataEmprestimo = [new Date()];
-                                        else
-                                            emprestimo.dataEmprestimo = [req.body.dataEmprestimo];
+                                    emprestimo._id = new mongoose.Types.ObjectId();
+                                    emprestimo.status = "emprestimo";
+                                    emprestimo.ativo = true;
+                                    if (req.body.dataEmprestimo == null)
+                                        emprestimo.dataEmprestimo = [new Date()];
+                                    else
+                                        emprestimo.dataEmprestimo = [req.body.dataEmprestimo];
 
+                                    if (req.body.dataRetorno == null){
                                         var dataRetorno = new Date();
                                         if (pessoa.tipoSocio == "professor"){
                                             dataRetorno.setDate(dataRetorno.getDate() + 14);
@@ -154,16 +233,30 @@ router.route('/emprestimos')
                                             dataRetorno.setDate(dataRetorno.getDate() + 7);
                                         }
                                         emprestimo.dataRetorno = dataRetorno;
+                                    } 
 
-                                        emprestimo.save(function(err){
-                                            if(err)
-                                                res.send(err);
-                                            else 
-                                                res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(dataRetorno, 'dd/mm/yyyy')});
-                                        });
-                                    }
+                                    emprestimo.save(function(err){
+                                        if(err)
+                                            res.send(err);
+                                        else{
+                                            Livro.findOne({_id: reserva.livro}, function (err, livro){
+                                                if (err)
+                                                    res.send(err);
+                                                else {
+                                                    livro.status = "emprestado";
+                                                    livro.save(function(err){
+                                                    if (err)
+                                                        res.send(err);
+                                                    else
+                                                        res.send({message:'Emprestimo cadastrado - retorno em ' + dateformat(emprestimo.dataRetorno, 'dd/mm/yyyy')});
+                                                    });
+                                                }
+                                            });
+                                        } 
+                                            
+                                    });
                                 }
-                            });
+                            }
                         }
                     }
                 });
@@ -187,14 +280,14 @@ router.route('/renovacao/:id')
         Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
             if(err)
                 res.send(err);
-
-            Emprestimo.find({status: "reserva", livro: emprestimo.livro, ativo: true}, function(err, reservas){
-                if (err)
-                    res.send(err);
-                else {
-                    if (reservas.length > 0){
+            else {
+                var nr = numReservas(emprestimo.livro);
+                if (nr < 0){
+                    res.json({message:"Erro: reservas não encontradas para livro"}); 
+                } else {
+                    if (nr > 0)
                         res.json({message:"Livro com reserva não pode ser renovado"});
-                    } else {
+                    else {
                         var dataAtual = new Date();
                         if (dataAtual > emprestimo.dataRetorno){
                             res.json({message:"Livro com entrega atrasada nao pode ser renovado"});
@@ -229,7 +322,7 @@ router.route('/renovacao/:id')
                         }
                     }
                 }
-            });
+            }
         });
     });
 
@@ -271,7 +364,7 @@ router.route('/devolucao/:id')
         
                             bloqueio.save(function(err){
                                 if (err){
-                                    erro = err;
+                                    res.send(err);
                                 } else {
                                     res.json({ message: 'Devolução efetuada com atraso - bloqueio de ' + diasDif + ' dias' });
                                     entregue = true;
@@ -283,17 +376,32 @@ router.route('/devolucao/:id')
                         }
 
                         if (entregue){
-                            Emprestimo.find({livro: emprestimo.livro, status:"reserva", ativo:true}, {}, {sort: {dataReserva: -1}}, function(err,reservas){
-                                if (err) console.log(err);
+                            Livro.findOne({livro: emprestimo.livro}, function(err, livro){
+                                if (err)
+                                    console.log(err);
                                 else {
-                                    if (reservas.length > 0){
-                                        var i = 0;
-                                        while (i < reservas.length){
-                                            console.log(dateformat(reservas[i].dataReserva,'dd/mm/yyyy'));
+                                    livro.status = "disponivel";
+                                    Emprestimo.find({livro: emprestimo.livro, status:"reserva", ativo:true}, {}, {sort: {dataReserva: -1}}, function(err,reservas){
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            if (reservas.length > 0){
+                                                livro.status = "reservado";
+                                                console.log("Livro disponível para sócio " + reservas[length-1].socio);
+                                            } 
                                         }
-                                    }
+
+                                        livro.save(function(err){
+                                            if (err)
+                                                console.log(err);
+                                            else
+                                                console.log("Livro ok");
+                                        });
+                                    })
+                                    
                                 }
-                            })
+                            });
+                            
                         }
                     }
                 });

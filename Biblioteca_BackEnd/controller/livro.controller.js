@@ -10,7 +10,8 @@ router.route('/livros')
         Livro.find(function(err,livros){
             if(err)
                 res.send(err);
-            res.json(livros);
+            else
+                res.json(livros);
        });
     })
 
@@ -22,6 +23,16 @@ router.route('/livros')
             res.send({message:'Livro cadastrado'});
         });
     });
+
+router.route('/livros/:status')
+    .get(function(req,res){
+        Livro.find({status: req.params.status},function(err,livros){
+            if(err)
+                res.send(err);
+            else
+                res.json(livros);
+       });
+    })
 
 router.route('/livro/:id')
     .get(function(req,res){ 
