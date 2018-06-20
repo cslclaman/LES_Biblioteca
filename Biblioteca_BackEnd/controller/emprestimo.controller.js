@@ -28,7 +28,14 @@ router.route('/reservas')
         reserva.save(function(err){
             if(err)
                 res.send(err);
-            res.send({message:'Reserva cadastrada'});
+            else {
+               Emprestimo.find({status:"reserva", livro: reserva.livro}, function(err,reservas){
+                    if(err)
+                        res.send(err);
+                    else
+                        res.send({message:'Reserva cadastrada - posição na fila: ' + reservas.length });
+                });
+            }
         });
     });
 
