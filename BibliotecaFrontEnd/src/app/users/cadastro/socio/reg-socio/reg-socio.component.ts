@@ -35,7 +35,8 @@ export class RegSocioComponent implements OnInit {
 
   LPessoa = new pessoa();
 
-  cadastrarSocio() {
+  cadastrarSocio(event) {
+    event.preventDefault();
     this.LPessoa.nome = this.nome;
     this.LPessoa.dataNascimento = this.dataNascimento;
     this.LPessoa.cpf = this.cpf;

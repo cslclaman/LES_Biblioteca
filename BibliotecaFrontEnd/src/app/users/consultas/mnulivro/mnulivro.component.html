@@ -1,0 +1,66 @@
+<div>
+
+    <h3>Livros</h3>
+    <br>
+<!--
+    <table>
+      <tr>
+          <td>
+              <div *ngIf="PodeIncluirPedidos">
+                <button (click)="incluirPedido()">
+                Incluir Pedido
+                </button>
+              </div>
+          </td>
+          <td>
+            <div>
+              <button (click)="refresh()">
+                Refresh
+              </button> 
+            </div>
+          </td>
+          <td>
+            <div>
+              <a [routerLink]="['/Menu', _idUsuario]">Menu</a>
+            </div>
+          </td>  
+          <td>
+            <div>
+              <a [routerLink]="['/Login']">Login</a>
+            </div>
+          </td>             
+      </tr>
+    
+    </table>
+-->
+    <table class="table">
+
+      <thead>
+        <tr>
+           <th>id</th>
+           <th>Titulo</th>
+           <th>Autor</th>
+           <th>Genero</th>
+           <th>Status</th>
+         </tr>
+      </thead>
+
+    <tbody>
+      <tr *ngFor="let livro of livros">
+          <td style="padding-right: 5px">{{livro._idLivro}}</td>
+          <td style="padding-right: 5px">{{livro.titulo}}</td>
+          <td style="padding-right: 5px">{{livro.autor}}</td>
+          <td style="padding-right: 5px">{{livro.genero}}</td>
+          <td style="padding-right: 5px">{{livro.status}}</td>
+          <!--<button (click)="detalhes(cantina._idPedido)">
+            Det
+          </button>
+          <button (click)="pedido(cantina._idPedido)">
+            Ped
+          </button>-->
+      </tr>
+    </tbody>
+
+    </table>
+
+</div>

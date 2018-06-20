@@ -1,6 +1,7 @@
-<h1>Cadastro de Funcionarios</h1>
-<form action="" (submit)="cadastrarFuncionario($event)">
-    <div class="container">
+<app-menu></app-menu>
+<div class="container">
+    <h1>Cadastro de Funcionarios</h1>
+    <form action="" (submit)="cadastrarFuncionario($event)">
         <p>
             <label for="nome">Nome:*</label>
             <input class="form-control" name="nome" [(ngModel)]="nome" type="text">
@@ -37,8 +38,8 @@
             <label for="cargo">Cargo:*</label>
             <input class="form-control" name="cargo" [(ngModel)]="cargo" type="text">
         </p>
-        <p>
+        <p class="botao">
             <button type="submit" class="btn-primary">Cadastrar</button>
         </p>
-    </div>
-</form>
+    </form>
+</div>

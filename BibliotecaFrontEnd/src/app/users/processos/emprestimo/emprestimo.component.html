@@ -1,3 +1,23 @@
-<p>
-  emprestimo works!
-</p>
+<app-menu></app-menu>
+<div class="container">
+  <form action="" (submit)="realizarEmprestimo($event)">
+    <h1>Empréstimo</h1>
+    <form action="" (submit)="cadastrarLivro($event, aut)">
+        <p>
+          <label ifor="socio">Socio*</label>
+          <select [(ngModel)]="selectedSocio" name="selectedSocio" for="socio" class="form-control">
+            <option *ngFor="let soc of socios" [value]="soc">{{soc.nome}} </option>
+          </select>
+        </p>
+        <p>
+          <label ifor="livro">livro*</label>
+          <select [(ngModel)]="selectedLivro" name="selectedLivro" for="livro" class="form-control">
+            <option *ngFor="let liv of livros" [value]="liv">{{liv.titulo}} </option>
+          </select>
+        </p>
+        <p>
+          <button type="submit" class="btn-primary">Realizar Empréstimo</button>
+        </p>
+    </form>
+  </form>
+</div>

@@ -1,5 +1,5 @@
 export class pessoa {
-
+    _idPessoa: number;
     nome: string;
     dataNascimento: Date;
     cpf: string;

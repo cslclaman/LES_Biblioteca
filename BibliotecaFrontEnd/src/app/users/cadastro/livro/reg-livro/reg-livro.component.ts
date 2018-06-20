@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { autor } from 'app/autor';
+import { livro } from 'app/livro';
 
 @Component({
   selector: 'app-reg-livro',
@@ -22,7 +23,8 @@ export class RegLivroComponent implements OnInit {
   http: Http;
   constructor(http: Http) { 
     this.http = http;
-let stream = this.http.get('http://localhost:3000/api/autores');
+
+    let stream = this.http.get('http://localhost:3000/api/livros');
     stream.subscribe(res => {
       this.autores = (res.json());
       //console.log(res.json());
@@ -33,7 +35,7 @@ let stream = this.http.get('http://localhost:3000/api/autores');
   ngOnInit() {
     
   }
-  LLivro = new Clivro();
+  LLivro = new livro();
   cadastrarLivro(event, aut) {
     event.preventDefault();
     console.log(this.selected);
@@ -67,7 +69,7 @@ let stream = this.http.get('http://localhost:3000/api/autores');
   }
 
 }
-
+/*
 export class Clivro {
   @Input() titulo: string;
   @Input() autor: autor;
@@ -77,3 +79,4 @@ export class Clivro {
   @Input() numPaginas: number;
   @Input() ano: number;
 }
+*/

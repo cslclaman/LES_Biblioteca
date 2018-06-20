@@ -1,6 +1,7 @@
-<h1>Cadastro de Socios</h1>
-<form action="" (submit)="cadastrarSocio($event)">
-    <div class="container">
+<app-menu></app-menu>
+<div class="container-fluid">
+    <h1>Cadastro de Socios</h1>
+    <form action="" (submit)="cadastrarSocio($event)">
         <p>
             <label for="nome">Nome:*</label>
             <input class="form-control" name="nome" [(ngModel)]="nome" type="text">
@@ -37,8 +38,8 @@
             <label for="tipoSocio">Tipo:*</label>
             <input class="form-control" name="tipoSocio" [(ngModel)]="tipoSocio" type="text">
         </p>
-        <p>
+        <p class="botao">
             <button type="submit" class="btn-primary">Cadastrar</button>
-          </p>
-    </div>
-</form>
+        </p>
+    </form>
+</div>

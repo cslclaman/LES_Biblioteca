@@ -1,7 +1,7 @@
 import { autor } from "app/autor";
 
 export class livro {
-    idLivro: number;
+    _idLivro: number;
     titulo: string;
     autor: autor;
     editora: string;
@@ -10,5 +10,6 @@ export class livro {
     numPaginas: number;
     ano: number;
     ativo: boolean;
+    status: string;
 
 }

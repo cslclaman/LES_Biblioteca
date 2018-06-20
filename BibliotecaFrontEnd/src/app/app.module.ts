@@ -13,6 +13,11 @@ import { routing } from './app.routes';
 import { AutorComponent } from './users/cadastro/autor/autor.component';
 import { ReservaComponent } from './users/processos/reserva/reserva.component';
 import { EmprestimoComponent } from './users/processos/emprestimo/emprestimo.component';
+import { MnulivroComponent } from './users/consultas/mnulivro/mnulivro.component';
+import { MnuAutorComponent } from './users/consultas/mnu-autor/mnu-autor.component';
+import { MnuFuncionarioComponent } from './users/consultas/mnu-funcionario/mnu-funcionario.component';
+import { MnuEmprestimoComponent } from './users/consultas/mnu-emprestimo/mnu-emprestimo.component';
+import { MnuReservaComponent } from './users/consultas/mnu-reserva/mnu-reserva.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,12 @@ import { EmprestimoComponent } from './users/processos/emprestimo/emprestimo.com
     MenuComponent,
     AutorComponent,
     ReservaComponent,
-    EmprestimoComponent
+    EmprestimoComponent,
+    MnulivroComponent,
+    MnuAutorComponent,
+    MnuFuncionarioComponent,
+    MnuEmprestimoComponent,
+    MnuReservaComponent
   ],
   imports: [
     BrowserModule,

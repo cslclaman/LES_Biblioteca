@@ -1,11 +1,23 @@
-<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-  <div class="container">
-      <a class="navbar-brand">Angular Router</a>
-      <ul class="nav navbar-nav" routerLinkActive="active">
-          <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="courses">Emprestimo</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="courses">Reserva</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="courses">Cadastros</a></li>
-      </ul>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Angular Router</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav navbar-nav" routerLinkActive="active">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/actEmprestimo">Emprestimo</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/actReserva">Reserva</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="courses">Cadastros</a>
+            </li>
+        </ul>
+    </div>
 </nav>

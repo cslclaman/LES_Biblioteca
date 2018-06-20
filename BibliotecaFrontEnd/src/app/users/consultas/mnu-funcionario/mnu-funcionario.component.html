@@ -1,0 +1,66 @@
+<div>
+
+    <h3>Emprestimos</h3>
+    <br>
+<!--
+    <table>
+      <tr>
+          <td>
+              <div *ngIf="PodeIncluirPedidos">
+                <button (click)="incluirPedido()">
+                Incluir Pedido
+                </button>
+              </div>
+          </td>
+          <td>
+            <div>
+              <button (click)="refresh()">
+                Refresh
+              </button> 
+            </div>
+          </td>
+          <td>
+            <div>
+              <a [routerLink]="['/Menu', _idUsuario]">Menu</a>
+            </div>
+          </td>  
+          <td>
+            <div>
+              <a [routerLink]="['/Login']">Login</a>
+            </div>
+          </td>             
+      </tr>
+    
+    </table>
+-->
+    <table class="table">
+
+      <thead>
+        <tr>
+           <th>id</th>
+           <th>Nome</th>
+           <th>Telefone</th>
+           <th>E-mail</th>
+           <th>Cargo</th>
+         </tr>
+      </thead>
+
+    <tbody>
+      <tr *ngFor="let funcionario of funcionarios">
+          <td style="padding-right: 5px">{{funcionario._idFuncionario}}</td>
+          <td style="padding-right: 5px">{{funcionario.nome}}</td>
+          <td style="padding-right: 5px">{{funcionario.telefone}}</td>
+          <td style="padding-right: 5px">{{funcinario.email}}</td>
+          <td style="padding-right: 5px">{{funcionario.cargo}}</td>
+          <!--<button (click)="detalhes(cantina._idPedido)">
+            Det
+          </button>
+          <button (click)="pedido(cantina._idPedido)">
+            Ped
+          </button>-->
+      </tr>
+    </tbody>
+
+    </table>
+
+</div>
