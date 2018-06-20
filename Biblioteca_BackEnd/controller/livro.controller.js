@@ -23,6 +23,16 @@ router.route('/livros')
         });
     });
 
+router.route('/livros/:status')
+    .get(function(req,res){
+        Livro.find({status:req.params.status},function(err,livros){
+            if(err)
+                res.send(err);
+            else
+                res.json(livros);
+       });
+    })
+
 router.route('/livro/:id')
     .get(function(req,res){ 
         Livro.findOne({_idLivro:req.params.id},
