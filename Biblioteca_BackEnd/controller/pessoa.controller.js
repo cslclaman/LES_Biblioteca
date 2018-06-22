@@ -27,7 +27,8 @@ router.route('/socios')
     .post(function(req,res){
         var pessoa = new Pessoa(req.body);
         pessoa._id = new mongoose.Types.ObjectId();
-        
+        pessoa.permissoes = "R";
+
         Pessoa.findOne({cpf: pessoa.cpf}, function(outro, err){
             if (err)
                 res.send(err);
@@ -96,6 +97,19 @@ router.route('/funcionarios')
         var pessoa = new Pessoa(req.body);
         pessoa._id = new mongoose.Types.ObjectId();
         pessoa.tipoSocio = "funcionario";
+        pessoa.permissoes = "ER";
+
+        switch (pessoa.cargo){
+            case "bibliotecario-chefe":
+                pessoa.permissoes += "FLS";
+                break;
+            case "arquivista":
+                pessoa.permissoes += "L";
+                break;
+            case "recepcionista":
+                pessoa.permissoes += "S";
+                break;
+        }
         
         Pessoa.findOne({cpf: pessoa.cpf}, function(outro, err){
             if (err)
@@ -159,9 +173,15 @@ router.route('/login')
                 res.send(err);
             else {
                 if (pessoa == null)
-                    res.json({message: 'Nome de usuário ou senha inválidos'});
-                else
-                    res.json(pessoa);
+                    res.json({status: "Erro", message: 'Nome de usuário ou senha inválidos'});
+                else 
+                    res.json({status: "OK", usuario: 
+                    {
+                        login: pessoa.login,
+                        nome: pessoa.nome,
+                        permissoes: pessoa.permissoes
+                    }
+                });
             }
             
         })

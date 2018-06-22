@@ -59,6 +59,15 @@ PARÂMETROS OPCIONAIS (tipoSocio sempre vai ser 'funcionario' nesse caso)
     "tipoSocio": "funcionario",
 }
 
+PESSOA (PERMISSÕES)
+{
+    "F": Cadastrar, editar e remover funcionários,
+    "L": Cadastrar, editar e remover livros,
+    "S": Cadastrar, editar e remover sócios,
+    "E": Realizar empréstimos e devoluções de livros,
+    "R": Realizar renovações e reservas de livros
+}
+
 EMPRÉSTIMO (RESERVA)
 http://localhost:3000/api/reservas
 {

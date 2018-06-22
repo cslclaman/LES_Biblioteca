@@ -14,7 +14,8 @@ var pessoaSchema=new Schema({
     login: { type: String, required: true },
     senha: { type: String, required: true },
     tipoSocio: { type: String, required: true },
-    cargo: { type: String, required: false}
+    cargo: { type: String, required: false},
+    permissoes: { type: String, required: true}
     
 },{ usePushEach: true });
 
