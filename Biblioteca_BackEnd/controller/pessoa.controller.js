@@ -29,11 +29,11 @@ router.route('/socios')
         pessoa._id = new mongoose.Types.ObjectId();
         pessoa.permissoes = "R";
 
-        Pessoa.findOne({cpf: pessoa.cpf}, function(outro, err){
+        Pessoa.findOne({cpf: pessoa.cpf}, function(err,outro){
             if (err)
                 res.send(err);
             else {
-                if (!outro){
+                if (outro != null){
                     res.send({message: "Erro: sócio já existe com CPF informado"});
                 } else {
                     pessoa.save(function(err){
@@ -111,11 +111,11 @@ router.route('/funcionarios')
                 break;
         }
         
-        Pessoa.findOne({cpf: pessoa.cpf}, function(outro, err){
+        Pessoa.findOne({cpf: pessoa.cpf}, function(err,outro){
             if (err)
                 res.send(err);
             else {
-                if (!outro){
+                if (outro != null){
                     res.send({message: "Erro: funcionário já existe com CPF informado"});
                 } else {
                     pessoa.save(function(err){
