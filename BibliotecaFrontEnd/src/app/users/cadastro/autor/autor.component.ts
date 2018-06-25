@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { autor } from '../../../autor';
 import { Http, Headers } from '@angular/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-autor',
@@ -24,7 +25,7 @@ export class AutorComponent implements OnInit {
 
   cadastrarAutor(event) {
 
-    event.preventDefault();
+    //event.preventDefault();
     
     this.LAutor.nome = this.nome;
     this.LAutor.sobrenome = this.sobrenome;
@@ -37,6 +38,12 @@ export class AutorComponent implements OnInit {
     .subscribe(res => {
         let resultado = res.json();
         console.log(resultado);
+        if(res.ok)
+        {
+          alert("Autor Cadastrado com sucesso");
+          this.nome = null;
+          this.sobrenome = null;
+        }
     });
 
     console.log(this.LAutor);

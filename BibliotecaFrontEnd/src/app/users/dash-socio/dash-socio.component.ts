@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { pessoa } from 'app/pessoa';
 import { emprestimo } from 'app/emprestimo';
 import { Router } from '@angular/router';
+import { livro } from 'app/livro';
 
 @Component({
   selector: 'app-dash-socio',
@@ -16,10 +17,17 @@ export class DashSocioComponent implements OnInit {
   reservas: any[];
   usuarios: pessoa[];
   current: pessoa;
+  selectedLivro: any;
+  Lreserva = new emprestimo();
+  socio: pessoa;
+  livro: livro;
+  livros: livro[];
 
   constructor(http: Http, router: Router) {
     this.http = http;
     this.router = router;
+    
+    
     /*
         let streamautor = this.http.get('http://localhost:3000/api/reservas');
         streamautor.subscribe(res => {
@@ -45,6 +53,13 @@ export class DashSocioComponent implements OnInit {
           this.current = this.usuarios[i];
         }
       }
+
+      let streamliv = this.http.get('http://localhost:3000/api/livros');
+      streamliv.subscribe(res => {
+        this.livros = (res.json());
+        console.log(this.livros);
+      });
+
       console.log(this.current);
       let streamemp = this.http.get('http://localhost:3000/api/emprestimo' + this.current._idPessoa);
       streamemp.subscribe(res => {
@@ -70,6 +85,29 @@ export class DashSocioComponent implements OnInit {
     StreamDel.subscribe(res => {
       console.log(res.json());
     })
+  }
+
+  realizarReserva(event) {
+    //event.preventDefault();
+    for (var i = 0; i < this.livros.length; i++) {
+      if (this.livros[i]._idLivro == this.selectedLivro) {
+        this.livro = this.livros[i];
+      }
+    }
+    this.Lreserva.socio = this.current;
+    this.Lreserva.livro = this.livro;
+    this.Lreserva.ativo = true;
+    this.Lreserva.dataReserva = new Date();
+
+    let hdr = new Headers();
+    hdr.append('Content-Type', 'application/json');
+
+    this.http
+      .post('http://localhost:3000/api/reservas', JSON.stringify(this.Lreserva), { headers: hdr })
+      .subscribe(res => {
+        let resultado = res.json();
+        console.log(resultado);
+      });
   }
 
   logout() {

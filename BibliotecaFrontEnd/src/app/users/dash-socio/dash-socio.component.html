@@ -3,6 +3,24 @@
 
   <div class="panel panel-primary">
     <div class="panel-heading">
+      <h2>Reservar Livro</h2>
+    </div>
+    <div class="panel-heading">
+      <form action="" (submit)="realizarReserva($event)">
+        <p>
+          <label ifor="livro">livro*</label>
+          <select [(ngModel)]="selectedLivro" name="selectedLivro" for="livro" class="form-control">
+            <option *ngFor="let liv of livros" [value]="liv._idLivro">{{liv.titulo}} </option>
+          </select>
+        </p>
+        <p>
+          <button type="submit" class="btn-primary">Reservar</button>
+        </p>
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
       <h2>Empréstimos</h2>
     </div>
     <div class="panel-body">

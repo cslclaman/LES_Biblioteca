@@ -56,6 +56,17 @@ export class RegFuncionarioComponent implements OnInit {
     .subscribe(res => {
         let resultado = res.json();
         console.log(resultado);
+        if(res.ok)
+        {
+          alert("Funcionario cadastrado!")
+          this.nome = null;
+          this.dataNascimento = null;
+          this.cpf = null;
+          this.email = null;
+          this.login = null;
+          this.senha = null;
+          this.cargo = null;
+        }
     });
 
     console.log(this.LPessoa);

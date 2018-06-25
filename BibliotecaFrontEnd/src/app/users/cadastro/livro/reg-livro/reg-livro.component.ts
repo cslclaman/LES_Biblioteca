@@ -64,19 +64,17 @@ export class RegLivroComponent implements OnInit {
     .subscribe(res => {
         let resultado = res.json();
         console.log(resultado);
+        if(res.ok)
+        {
+          alert("Livro Cadastrado!");
+          this.titulo = null;
+          this.edicao = null;
+          this.editora = null;
+          this.genero = null;
+          this.ano = null;
+          this.numPaginas = null;
+        }
     });
-    //console.log(this.LLivro);
   }
 
 }
-/*
-export class Clivro {
-  @Input() titulo: string;
-  @Input() autor: autor;
-  @Input() editora: string;
-  @Input() edicao: number;
-  @Input() genero: string;
-  @Input() numPaginas: number;
-  @Input() ano: number;
-}
-*/

@@ -44,11 +44,11 @@ export class LoginComponent implements OnInit {
           //Redireciona para o menu
           if(this.userlogin.login == 'admin' || this.userlogin.login == 'funcionario')
           {
-            this.router.navigate(['/dshFuncionario'])
+            this.router.navigate(['/dshFuncionario']);
           }
           else
           {
-            this.router.navigate(['/dshSocio'])
+            this.router.navigate(['/dshSocio']);
           }
           //this.router.navigate(['/menu']);
         }else{

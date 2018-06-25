@@ -2,11 +2,11 @@
 <div class="container">
   <form action="" (submit)="cadastrarAutor($event)">
     <p>
-      <label for="nome">Nome:*</label>
+      <label id="nome" for="nome">Nome:*</label>
       <input class="form-control" name="nome" [(ngModel)]="nome" type="text">
     </p>
     <p>
-      <label for="dataNascimento">Sobrenome:*</label>
+      <label id="sobrenome" for="dataNascimento">Sobrenome:*</label>
       <input class="form-control" name="sobrenome" [(ngModel)]="sobrenome" type="text">
     </p>
     <p class="botao">

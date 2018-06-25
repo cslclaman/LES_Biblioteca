@@ -20,8 +20,8 @@ export class RegSocioComponent implements OnInit {
   tipoSocio: string;
   cargo: string;
   http: Http;
-  
-  constructor(http: Http) { 
+
+  constructor(http: Http) {
     this.http = http;
   }
 
@@ -51,11 +51,24 @@ export class RegSocioComponent implements OnInit {
     hdr.append('Content-Type', 'application/json');
 
     this.http
-    .post('http://localhost:3000/api/socios', JSON.stringify(this.LPessoa),{ headers: hdr})
-    .subscribe(res => {
+      .post('http://localhost:3000/api/socios', JSON.stringify(this.LPessoa), { headers: hdr })
+      .subscribe(res => {
         let resultado = res.json();
+        if (res.ok) {
+          alert("Socio Cadastrado!");
+          this.nome = null;
+          this.dataNascimento = null;
+          this.cpf = null;
+          this.endereco = null;
+          this.telefone = null;
+          this.email = null;
+          this.login = null;
+          this.senha = null;
+          this.tipoSocio = null;
+          this.cargo = null;
+        }
         console.log(resultado);
-    });
+      });
 
     console.log(this.LPessoa);
   }
