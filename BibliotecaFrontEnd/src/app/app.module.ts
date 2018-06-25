@@ -18,6 +18,9 @@ import { MnuAutorComponent } from './users/consultas/mnu-autor/mnu-autor.compone
 import { MnuFuncionarioComponent } from './users/consultas/mnu-funcionario/mnu-funcionario.component';
 import { MnuEmprestimoComponent } from './users/consultas/mnu-emprestimo/mnu-emprestimo.component';
 import { MnuReservaComponent } from './users/consultas/mnu-reserva/mnu-reserva.component';
+import { MenuSocioComponent } from './users/menu-socio/menu-socio.component';
+import { DashFuncionarioComponent } from './users/dash-funcionario/dash-funcionario.component';
+import { DashSocioComponent } from './users/dash-socio/dash-socio.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { MnuReservaComponent } from './users/consultas/mnu-reserva/mnu-reserva.c
     MnuAutorComponent,
     MnuFuncionarioComponent,
     MnuEmprestimoComponent,
-    MnuReservaComponent
+    MnuReservaComponent,
+    MenuSocioComponent,
+    DashFuncionarioComponent,
+    DashSocioComponent
   ],
   imports: [
     BrowserModule,

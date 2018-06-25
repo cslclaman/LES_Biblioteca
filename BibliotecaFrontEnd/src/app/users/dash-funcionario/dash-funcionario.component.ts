@@ -2,21 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  selector: 'app-dash-funcionario',
+  templateUrl: './dash-funcionario.component.html',
+  styleUrls: ['./dash-funcionario.component.css']
 })
-export class MenuComponent implements OnInit {
+export class DashFuncionarioComponent implements OnInit {
 
-  router: Router;
-  
-  ngOnInit() {
-    
-  }
-  constructor(router: Router) {
-    this.router = router;
-  }
-/*
   router: Router;
   nomeUsuario: string;
   permCadFunc: boolean = false;
@@ -34,7 +25,7 @@ export class MenuComponent implements OnInit {
 
     //Sabe aquele usuário que fez login? Agora é a hora de pegar ele de volta.
     let usuario = JSON.parse(localStorage.getItem('usuario'));
-
+    console.log(usuario);
     if (usuario == null){
       //Se não tinha usuário salvo, volta pra tela de login
       this.router.navigate(['/login']);
@@ -48,11 +39,11 @@ export class MenuComponent implements OnInit {
       this.permCadSocio = permissoes.includes("S");
       this.permCadLivro = this.permCadAutor = permissoes.includes("A");
       this.permReserva = permissoes.includes("R");
-      this.permEmprestimo = permissoes.includes("E");
-}
+      this.permEmprestimo = permissoes.includes("E");*/
+    }
 
   }
-*/
+
   logout(){
     //Quando aperta pra fazer logout, apaga o usuário que estava salvo e redireciona para a tela de login
     localStorage.removeItem('usuario');

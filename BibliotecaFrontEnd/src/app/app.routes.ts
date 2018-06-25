@@ -12,6 +12,9 @@ import { MnuEmprestimoComponent } from 'app/users/consultas/mnu-emprestimo/mnu-e
 import { MnuFuncionarioComponent } from 'app/users/consultas/mnu-funcionario/mnu-funcionario.component';
 import { MnuReservaComponent } from 'app/users/consultas/mnu-reserva/mnu-reserva.component';
 import { MnulivroComponent } from 'app/users/consultas/mnulivro/mnulivro.component';
+import { MenuSocioComponent } from './users/menu-socio/menu-socio.component';
+import { DashFuncionarioComponent } from './users/dash-funcionario/dash-funcionario.component';
+import { DashSocioComponent } from './users/dash-socio/dash-socio.component';
 
 const appRoutes: Routes = [
 
@@ -29,7 +32,9 @@ const appRoutes: Routes = [
     { path: 'mnuFuncionario', component: MnuFuncionarioComponent},
     { path: 'mnuLivro', component: MnulivroComponent},
     { path: 'mnuReserva', component: MnuReservaComponent},
-    
+    { path: 'dshFuncionario', component: DashFuncionarioComponent},
+    { path: 'dshSocio', component: DashSocioComponent},
+    { path: 'menuSocio', component: MenuSocioComponent}
 
     
 ];

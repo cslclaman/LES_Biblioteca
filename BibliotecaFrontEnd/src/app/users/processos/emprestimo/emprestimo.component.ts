@@ -14,9 +14,12 @@ import { socio } from 'app/socio';
 export class EmprestimoComponent implements OnInit {
 
   socio: pessoa;
-  selectedSocio: pessoa;
+  empSocio: pessoa;
+  empLivro: livro;
+  selected: any;
+  selectedSocio: any;
   livro: livro;
-  selectedLivro: livro;
+  selectedLivro: any;
   status: string;
   ativo: boolean;
   dataReserva: Date;
@@ -51,28 +54,43 @@ export class EmprestimoComponent implements OnInit {
 
   realizarEmprestimo(event) {
     event.preventDefault();
-
+    
     for (var i = 0; i < this.socios.length; i++) {
-      if (this.socios[i]._idPessoa == this.selectedSocio._idPessoa) {
+      if (this.socios[i]._idPessoa == this.selectedSocio) {
         this.socio = this.socios[i];
       }
     }
     for (var i = 0; i < this.livros.length; i++) {
-      if (this.livros[i]._idLivro == this.selectedLivro._idLivro) {
+      if (this.livros[i]._idLivro == this.selectedLivro) {
         this.livro = this.livros[i];
       }
     }
+    console.log("selecteds");
+    //console.log(this.selected);
+    console.log(this.selectedSocio);
+    console.log(this.selectedLivro);
+    /*
+    let stEmpSoc = this.http.get('http://localhost:3000/api/socio' + this.selectedSocio._idPessoa);
+    stEmpSoc.subscribe(res => {
+      this.empSocio = (res.json());
+    });
+
+    let stEmpLiv = this.http.get('http://localhost:3000/api/livro' + this.selectedLivro._idLivro);
+    stEmpLiv.subscribe(res => {
+      this.empLivro = (res.json());
+    });*/
+
     this.Lemprestimo.socio = this.socio;
     this.Lemprestimo.livro = this.livro;
-    this.Lemprestimo.ativo = true;
-    this.Lemprestimo.dataEmprestimo = new Date();
-    var datedev = this.Lemprestimo.dataDevolucao = new Date();
-    if (this.socio.tipoSocio == "aluno" || this.socio.cargo != null) {
+    //this.Lemprestimo.ativo = true;
+    //this.Lemprestimo.dataEmprestimo = new Date();
+    //var datedev = this.Lemprestimo.dataDevolucao = new Date();
+    /*if (this.socio.tipoSocio == "aluno" || this.socio.cargo != null) {
       this.Lemprestimo.dataDevolucao.setDate(datedev.getDate() + 7);
     }
     else {
       this.Lemprestimo.dataDevolucao.setDate(datedev.getDate() + 14);
-    }
+    }*/
 
     let hdr = new Headers();
     hdr.append('Content-Type', 'application/json');

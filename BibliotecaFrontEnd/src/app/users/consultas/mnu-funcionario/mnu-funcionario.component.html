@@ -33,7 +33,7 @@
     
     </table>
 -->
-    <table class="table">
+    <table class="table table-striped">
 
       <thead>
         <tr>
@@ -47,17 +47,14 @@
 
     <tbody>
       <tr *ngFor="let funcionario of funcionarios">
-          <td style="padding-right: 5px">{{funcionario._idFuncionario}}</td>
+          <td style="padding-right: 5px">{{funcionario._idPessoa}}</td>
           <td style="padding-right: 5px">{{funcionario.nome}}</td>
           <td style="padding-right: 5px">{{funcionario.telefone}}</td>
           <td style="padding-right: 5px">{{funcinario.email}}</td>
           <td style="padding-right: 5px">{{funcionario.cargo}}</td>
-          <!--<button (click)="detalhes(cantina._idPedido)">
-            Det
+          <button (click)="deleteFuncionario(funcionario._idPessoa)" class="btn-danger">
+            Deletar
           </button>
-          <button (click)="pedido(cantina._idPedido)">
-            Ped
-          </button>-->
       </tr>
     </tbody>
 

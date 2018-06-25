@@ -1,8 +1,8 @@
 <div>
 
-    <h3>Autores</h3>
-    <br>
-<!--
+  <h3>Autores</h3>
+  <br>
+  <!--
     <table>
       <tr>
           <td>
@@ -33,22 +33,25 @@
     
     </table>
 -->
-    <table class="table">
+  <table class="table">
 
-      <thead>
-        <tr>
-           <th>id</th>
-           <th>Nome</th>
-           <th>Sobrenome</th>
-         </tr>
-      </thead>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+      </tr>
+    </thead>
 
     <tbody>
       <tr *ngFor="let autor of autores">
-          <td style="padding-right: 5px">{{autor._idAutor}}</td>
-          <td style="padding-right: 5px">{{autor.nome}}</td>
-          <td style="padding-right: 5px">{{autor.sobrenome}}</td>
-          <!--<button (click)="detalhes(cantina._idPedido)">
+        <td style="padding-right: 5px">{{autor._idAutor}}</td>
+        <td style="padding-right: 5px">{{autor.nome}}</td>
+        <td style="padding-right: 5px">{{autor.sobrenome}}</td>
+        <button (click)="deleteAutor(autor._idAutor)" class="btn-danger">
+          Deletar
+        </button>
+        <!--<button (click)="detalhes(cantina._idPedido)">
             Det
           </button>
           <button (click)="pedido(cantina._idPedido)">
@@ -57,6 +60,6 @@
       </tr>
     </tbody>
 
-    </table>
+  </table>
 
 </div>

@@ -26,4 +26,12 @@ export class MnuReservaComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteReserva(Id: number) {
+
+    let StreamDel = this.http.delete('http://localhost:3000/api/reserva/' + Id);
+    StreamDel.subscribe(res => {
+      console.log(res.json());
+    })
+
+  }
 }

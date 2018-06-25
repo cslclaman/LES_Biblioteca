@@ -12,9 +12,9 @@ import { emprestimo } from 'app/emprestimo';
 export class ReservaComponent implements OnInit {
 
   socio: pessoa;
-  selectedSocio: pessoa;
+  selectedSocio: any;
   livro: livro;
-  selectedLivro: livro;
+  selectedLivro: any;
   status: string;
   ativo: boolean;
   dataReserva: Date;
@@ -45,16 +45,17 @@ export class ReservaComponent implements OnInit {
   ngOnInit() {
   }
 
-  realizarEmprestimo(event) {
+  realizarReserva(event) {
     event.preventDefault();
 
+    console.log(this.selectedLivro);
     for (var i = 0; i < this.socios.length; i++) {
-      if (this.socios[i]._idPessoa == this.selectedSocio._idPessoa) {
+      if (this.socios[i]._idPessoa == this.selectedSocio) {
         this.socio = this.socios[i];
       }
     }
     for (var i = 0; i < this.livros.length; i++) {
-      if (this.livros[i]._idLivro == this.selectedLivro._idLivro) {
+      if (this.livros[i]._idLivro == this.selectedLivro) {
         this.livro = this.livros[i];
       }
     }

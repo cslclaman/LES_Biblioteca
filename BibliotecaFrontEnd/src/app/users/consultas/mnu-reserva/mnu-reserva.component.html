@@ -1,8 +1,6 @@
 <div>
-
-    <h3>Emprestimos</h3>
-    <br>
-<!--
+  <br>
+  <!--
     <table>
       <tr>
           <td>
@@ -33,26 +31,31 @@
     
     </table>
 -->
-    <table class="table">
+  <table class="table">
 
-      <thead>
-        <tr>
-           <th>id</th>
-           <th>Socio</th>
-           <th>Livro</th>
-           <th>Reserva</th>
-           <th>Devolução</th>
-         </tr>
-      </thead>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Socio</th>
+        <th>Livro</th>
+        <th>Reserva</th>
+        <th>Devolução</th>
+        <th>Status</th>
+      </tr>
+    </thead>
 
     <tbody>
       <tr *ngFor="let reserva of reservas">
-          <td style="padding-right: 5px">{{reserva._idEmprestimo}}</td>
-          <td style="padding-right: 5px">{{reserva.socio.nome}}</td>
-          <td style="padding-right: 5px">{{reserva.livro.titulo}}</td>
-          <td style="padding-right: 5px">{{reserva.dataReserva}}</td>
-          <td style="padding-right: 5px">{{emprestimo.dataRetorno}}</td>
-          <!--<button (click)="detalhes(cantina._idPedido)">
+        <td style="padding-right: 5px">{{reserva._idEmprestimo}}</td>
+        <td style="padding-right: 5px">{{reserva.socio}}</td>
+        <td style="padding-right: 5px">{{reserva.livro}}</td>
+        <td style="padding-right: 5px">{{reserva.dataReserva}}</td>
+        <td style="padding-right: 5px">{{reserva.dataRetorno}}</td>
+        <td style="padding-right: 5px">{{reserva.status}}</td>
+        <button (click)="deleteReserva(reserva._idEmprestimo)" class="btn-danger">
+          Cancelar
+        </button>
+        <!--<button (click)="detalhes(cantina._idPedido)">
             Det
           </button>
           <button (click)="pedido(cantina._idPedido)">
@@ -61,6 +64,6 @@
       </tr>
     </tbody>
 
-    </table>
+  </table>
 
 </div>

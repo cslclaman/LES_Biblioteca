@@ -32,4 +32,12 @@ export class MnuAutorComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteAutor(idAutor: number){
+
+    let StreamDel = this.http.delete('http://localhost:3000/api/autor/'+ idAutor);
+    StreamDel.subscribe(res => {
+      console.log(res.json());
+  });
+}
+
 }

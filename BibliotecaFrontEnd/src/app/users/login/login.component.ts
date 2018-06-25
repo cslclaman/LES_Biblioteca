@@ -42,7 +42,15 @@ export class LoginComponent implements OnInit {
           //Armazena dados do usuário no armazenamento local do computador
           localStorage.setItem('usuario', JSON.stringify(resultado.usuario));          
           //Redireciona para o menu
-          this.router.navigate(['/menu']);
+          if(this.userlogin.login == 'admin' || this.userlogin.login == 'funcionario')
+          {
+            this.router.navigate(['/dshFuncionario'])
+          }
+          else
+          {
+            this.router.navigate(['/dshSocio'])
+          }
+          //this.router.navigate(['/menu']);
         }else{
           //Apresenta mensagem de erro na tela
           this.message = resultado.message;

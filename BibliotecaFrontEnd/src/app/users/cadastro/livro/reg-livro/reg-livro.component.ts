@@ -24,7 +24,7 @@ export class RegLivroComponent implements OnInit {
   constructor(http: Http) { 
     this.http = http;
 
-    let stream = this.http.get('http://localhost:3000/api/livros');
+    let stream = this.http.get('http://localhost:3000/api/autores');
     stream.subscribe(res => {
       this.autores = (res.json());
       //console.log(res.json());
@@ -36,7 +36,7 @@ export class RegLivroComponent implements OnInit {
     
   }
   LLivro = new livro();
-  cadastrarLivro(event, aut) {
+  cadastrarLivro(event) {
     event.preventDefault();
     console.log(this.selected);
 
