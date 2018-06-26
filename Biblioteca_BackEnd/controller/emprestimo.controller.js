@@ -75,17 +75,21 @@ router.route('/reserva/:id')
         Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
             if(err)
                 res.send(err);
-            res.json(reserva);
+            else
+                res.json(reserva);
         });
     })
 
     .post(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
-            if(err || !reserva.ativo){
+            if(err || reserva == null || !reserva.ativo){
                 if (err)
                     res.send(err);
                 else
-                    res.json({message: "Erro: Reserva inativa"});
+                    if (reserva == null)
+                        res.json({message: "Erro: Reserva com ID " + req.params.id + " não encontrada"});
+                    else
+                        res.json({message: "Erro: Reserva inativa"});
             } else {
                 Pessoa.findOne({_id:reserva.socio}, function(err, pessoa){
                     if (err || pessoa == null){
@@ -147,8 +151,12 @@ router.route('/reserva/:id')
     
     .delete(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
-            if(err)
-                res.send(err);
+            if (err || emprestimo == null){
+                if (err)
+                    res.send(err);
+                else
+                    res.json({message: "Erro: Reserva ID " + req.params.id + " não encontrada"});
+            }
 
             reserva.ativo=false;
 
@@ -278,9 +286,12 @@ router.route('/renovacao/:id')
 
     .post(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id},function(err,emprestimo){
-            if(err)
-                res.send(err);
-            else {
+            if(err || emprestimo == null){
+                if (err)
+                    res.send(err);
+                else
+                    res.json({message: "Empréstimo não encontrado com ID " + req.params.id });
+            } else {
                 var nr = numReservas(emprestimo.livro);
                 if (nr < 0){
                     res.json({message:"Erro: reservas não encontradas para livro"}); 
