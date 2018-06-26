@@ -50,6 +50,12 @@
           <td style="padding-right: 5px">{{emprestimo.livro}}</td>
           <td style="padding-right: 5px">{{emprestimo.dataEmprestimo}}</td>
           <td style="padding-right: 5px">{{emprestimo.dataRetorno}}</td>
+          <button (click)="renovar(emprestimo._idEmprestimo)" class="btn-primary">
+              Renovar
+            </button>
+            <button (click)="renovar(emprestimo._idEmprestimo)" class="btn-danger">
+                Devolver
+              </button>
       </tr>
     </tbody>
 
