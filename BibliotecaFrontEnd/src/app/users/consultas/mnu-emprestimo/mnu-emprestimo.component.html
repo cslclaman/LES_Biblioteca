@@ -46,16 +46,10 @@
     <tbody>
       <tr *ngFor="let emprestimo of emprestimos">
           <td style="padding-right: 5px">{{emprestimo._idEmprestimo}}</td>
-          <td style="padding-right: 5px">{{emprestimo.socio.nome}}</td>
-          <td style="padding-right: 5px">{{emprestimo.livro.titulo}}</td>
+          <td style="padding-right: 5px">{{emprestimo.socio}}</td>
+          <td style="padding-right: 5px">{{emprestimo.livro}}</td>
           <td style="padding-right: 5px">{{emprestimo.dataEmprestimo}}</td>
-          <td style="padding-right: 5px">{{emprestimo.dataDevolucao}}</td>
-          <!--<button (click)="detalhes(cantina._idPedido)">
-            Det
-          </button>
-          <button (click)="pedido(cantina._idPedido)">
-            Ped
-          </button>-->
+          <td style="padding-right: 5px">{{emprestimo.dataRetorno}}</td>
       </tr>
     </tbody>
 

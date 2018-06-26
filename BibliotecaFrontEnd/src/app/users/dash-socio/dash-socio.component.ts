@@ -13,8 +13,8 @@ import { livro } from 'app/livro';
 export class DashSocioComponent implements OnInit {
   http: Http;
   router: Router;
-  emprestimos: any[];
-  reservas: any[];
+  emprestimos: emprestimo[];
+  reservas: emprestimo[];
   usuarios: pessoa[];
   current: pessoa;
   selectedLivro: any;
@@ -26,20 +26,6 @@ export class DashSocioComponent implements OnInit {
   constructor(http: Http, router: Router) {
     this.http = http;
     this.router = router;
-    
-    
-    /*
-        let streamautor = this.http.get('http://localhost:3000/api/reservas');
-        streamautor.subscribe(res => {
-          this.reservas = (res.json());
-          console.log(this.reservas);
-        });
-    
-        let streamemps = this.http.get('http://localhost:3000/api/emprestimos');
-        streamemps.subscribe(res => {
-          this.emprestimos = (res.json());
-          console.log(this.emprestimos);
-        });*/
 
     let usuario = JSON.parse(localStorage.getItem('usuario'));
 
@@ -48,12 +34,16 @@ export class DashSocioComponent implements OnInit {
       this.usuarios = (res.json());
       console.log(this.usuarios);
 
+      while(this.usuarios == null)
+      {
+
+      }
       for (let i = 0; i < this.usuarios.length; i++) {
         if (this.usuarios[i].login == usuario.login) {
           this.current = this.usuarios[i];
         }
       }
-
+      
       let streamliv = this.http.get('http://localhost:3000/api/livros');
       streamliv.subscribe(res => {
         this.livros = (res.json());
@@ -61,17 +51,47 @@ export class DashSocioComponent implements OnInit {
       });
 
       console.log(this.current);
-      let streamemp = this.http.get('http://localhost:3000/api/emprestimo' + this.current._idPessoa);
+      let streamemp = this.http.get('http://localhost:3000/api/emprestimos');
       streamemp.subscribe(res => {
         this.emprestimos = (res.json());
-        console.log(this.emprestimos);
+        //console.log(this.emprestimos);
       });
 
-      let streamres = this.http.get('http://localhost:3000/api/reserva' + this.current._idPessoa);
+      for(let i = 0; i< this.emprestimos.length; i++)
+      {
+        if(this.emprestimos[i].socio != this.current)
+        {
+          this.emprestimos.splice(i);
+        }
+        else
+        {
+          var emp = this.emprestimos[i];
+        }
+      }
+      
+      let streamres = this.http.get('http://localhost:3000/api/reservas');
       streamres.subscribe(res => {
         this.reservas = (res.json());
-        console.log(this.reservas);
+        
+        if(this.reservas == null)
+        {
+          console.log("sem reservas");
+        }
+      
+        for(let i = 0; i< this.reservas.length; i++)
+      {
+        if(this.reservas[i].socio != this.current)
+        {
+          this.reservas.splice(i);
+        }
+        else
+        {
+          var emp = this.reservas[i];
+        }
+      }
       });
+
+
     });
 
   }

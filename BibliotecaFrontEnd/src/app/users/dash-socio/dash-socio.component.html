@@ -34,19 +34,13 @@
             <th>Devolução</th>
           </tr>
         </thead>
-
+       
         <tbody>
           <tr *ngFor="let emprestimo of emprestimos">
             <td style="padding-right: 5px">{{emprestimo._idEmprestimo}}</td>
-            <td style="padding-right: 5px">{{emprestimo.livro.titulo}}</td>
+            <td style="padding-right: 5px">{{emprestimo.livro}}</td>
             <td style="padding-right: 5px">{{emprestimo.dataEmprestimo}}</td>
-            <td style="padding-right: 5px">{{emprestimo.dataDevolucao}}</td>
-            <!--<button (click)="detalhes(cantina._idPedido)">
-                  Det
-                </button>
-                <button (click)="pedido(cantina._idPedido)">
-                  Ped
-                </button>-->
+            <td style="padding-right: 5px">{{emprestimo.dataRetorno}}</td>
           </tr>
         </tbody>
 
@@ -73,18 +67,12 @@
         <tbody>
           <tr *ngFor="let reserva of reservas">
             <td style="padding-right: 5px">{{reserva._idEmprestimo}}</td>
-            <td style="padding-right: 5px">{{reserva.livro.titulo}}</td>
+            <td style="padding-right: 5px">{{reserva.livro}}</td>
             <td style="padding-right: 5px">{{reserva.dataReserva}}</td>
             <td style="padding-right: 5px">{{emprestimo.dataRetorno}}</td>
             <button (click)="deleteReserva(reserva._idEmprestimo)" class="btn-danger">
               Cancelar
             </button>
-            <!--<button (click)="detalhes(cantina._idPedido)">
-                    Det
-                  </button>
-                  <button (click)="pedido(cantina._idPedido)">
-                    Ped
-                  </button>-->
           </tr>
         </tbody>
 
