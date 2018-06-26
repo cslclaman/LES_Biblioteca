@@ -121,8 +121,8 @@ router.route('/funcionarios')
                     pessoa.save(function(err){
                         if(err)
                             res.send(err);
-                            
-                        res.send({message:'Funcionario cadastrado'});
+                        else
+                            res.send({message:'Funcionario cadastrado'});
                     });
                 }
             }

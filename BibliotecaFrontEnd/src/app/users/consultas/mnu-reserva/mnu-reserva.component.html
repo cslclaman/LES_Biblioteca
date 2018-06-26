@@ -39,7 +39,6 @@
         <th>Socio</th>
         <th>Livro</th>
         <th>Reserva</th>
-        <th>Retorno</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -49,8 +48,7 @@
         <td style="padding-right: 5px">{{reserva._idEmprestimo}}</td>
         <td style="padding-right: 5px">{{reserva.socio}}</td>
         <td style="padding-right: 5px">{{reserva.livro}}</td>
-        <td style="padding-right: 5px">{{reserva.dataReserva}}</td>
-        <td style="padding-right: 5px">{{reserva.dataRetorno}}</td>
+        <td style="padding-right: 5px">{{reserva.dataReserva.toLocaleString()}}</td>
         <td style="padding-right: 5px">{{reserva.ativo}}</td>
         <button (click)="deleteReserva(reserva._idEmprestimo)" class="btn-danger">
           Cancelar

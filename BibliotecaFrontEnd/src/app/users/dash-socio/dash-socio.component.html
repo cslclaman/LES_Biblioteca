@@ -60,7 +60,6 @@
             <th>id</th>
             <th>Livro</th>
             <th>Reserva</th>
-            <th>Devolução</th>
           </tr>
         </thead>
 
@@ -69,7 +68,6 @@
             <td style="padding-right: 5px">{{reserva._idEmprestimo}}</td>
             <td style="padding-right: 5px">{{reserva.livro}}</td>
             <td style="padding-right: 5px">{{reserva.dataReserva}}</td>
-            <td style="padding-right: 5px">{{emprestimo.dataRetorno}}</td>
             <button (click)="deleteReserva(reserva._idEmprestimo)" class="btn-danger">
               Cancelar
             </button>

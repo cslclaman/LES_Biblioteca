@@ -11,5 +11,4 @@ export class emprestimo{
     dataEmprestimo: Date;
     dataRetorno: Date;
     dataDevolucao: Date; 
-    dataEmprestimoFormata: Date;
 }
