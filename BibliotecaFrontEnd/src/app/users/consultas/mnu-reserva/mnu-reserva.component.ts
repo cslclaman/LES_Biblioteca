@@ -21,6 +21,7 @@ export class MnuReservaComponent implements OnInit {
       this.reservas = (res.json());
       console.log(this.reservas);
     });
+    
    }
 
   ngOnInit() {
