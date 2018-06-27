@@ -388,8 +388,13 @@ router.route('/devolucao/:id')
 
                         if (entregue){
                             Livro.findOne({livro: emprestimo.livro}, function(err, livro){
-                                if (err)
-                                    console.log(err);
+                                if (err || livro == null){
+                                    if (err)
+                                        console.log(err);
+                                    else
+                                        console.log("Livro NULL");
+                                }
+                                    
                                 else {
                                     livro.status = "disponivel";
                                     Emprestimo.find({livro: emprestimo.livro, status:"reserva", ativo:true}, {}, {sort: {dataReserva: -1}}, function(err,reservas){
