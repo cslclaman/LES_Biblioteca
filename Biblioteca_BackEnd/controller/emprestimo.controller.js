@@ -151,43 +151,44 @@ router.route('/reserva/:id')
     
     .delete(function(req,res){
         Emprestimo.findOne({_idEmprestimo:req.params.id}, function(err, reserva) {
-            if (err || emprestimo == null){
+            if (err || reserva == null){
                 if (err)
                     res.send(err);
                 else
                     res.json({message: "Erro: Reserva ID " + req.params.id + " não encontrada"});
-            }
+            } else {
 
-            reserva.ativo=false;
+                reserva.ativo=false;
 
-            reserva.save(function(err) {
-                if (err)
-                    res.send(err);
-                else {
-                    Livro.findOne({_id: reserva.livro}, function (err, livro){
-                        if (err)
-                            res.send(err);
-                        else {
-                            var nr = numReservas(livro._id);
-                            if (nr < 0)
-                                res.json({message:"Erro: reservas não encontradas para livro"});
+                reserva.save(function(err) {
+                    if (err)
+                        res.send(err);
+                    else {
+                        Livro.findOne({_id: reserva.livro}, function (err, livro){
+                            if (err)
+                                res.send(err);
                             else {
-                                if (nr == 0)
-                                    livro.status = "disponivel";
-                                else
-                                    livro.status = "reservado";
-
-                                livro.save(function(err){
-                                    if (err)
-                                        res.send(err);
+                                var nr = numReservas(livro._id);
+                                if (nr < 0)
+                                    res.json({message:"Erro: reservas não encontradas para livro"});
+                                else {
+                                    if (nr == 0)
+                                        livro.status = "disponivel";
                                     else
-                                        res.json({ message: 'Reserva removida'});
-                                });
+                                        livro.status = "reservado";
+
+                                    livro.save(function(err){
+                                        if (err)
+                                            res.send(err);
+                                        else
+                                            res.json({ message: 'Reserva removida'});
+                                    });
+                                }
                             }
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
+            }
         });
     });
 
@@ -197,7 +198,8 @@ router.route('/emprestimos')
         Emprestimo.find({status:"emprestimo"}, function(err,emprestimos){
             if(err)
                 res.send(err);
-            res.json(emprestimos);
+            else
+                res.json(emprestimos);
         });
     })
 
@@ -248,8 +250,14 @@ router.route('/emprestimos')
                                             res.send(err);
                                         else{
                                             Livro.findOne({_id: reserva.livro}, function (err, livro){
-                                                if (err)
-                                                    res.send(err);
+                                                if (err || livro == null){
+                                                    if (err)
+                                                        res.send(err);
+                                                    else
+                                                        res.json({message:"Livro não encontrado"});
+                                                }
+
+                                                    
                                                 else {
                                                     livro.status = "emprestado";
                                                     livro.save(function(err){
