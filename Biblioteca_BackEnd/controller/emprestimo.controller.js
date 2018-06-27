@@ -249,7 +249,7 @@ router.route('/emprestimos')
                                         if(err)
                                             res.send(err);
                                         else{
-                                            Livro.findOne({_id: reserva.livro}, function (err, livro){
+                                            Livro.findOne({_id: emprestimo.livro}, function (err, livro){
                                                 if (err || livro == null){
                                                     if (err)
                                                         res.send(err);
