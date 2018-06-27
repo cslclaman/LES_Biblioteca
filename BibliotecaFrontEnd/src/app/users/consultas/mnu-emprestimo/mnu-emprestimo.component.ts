@@ -37,6 +37,10 @@ export class MnuEmprestimoComponent implements OnInit {
       .subscribe(res => {
         let resultado = res.json();
         console.log(resultado);
+        if(res.ok)
+        {
+          alert(resultado.message);
+        }
       });
   }
 
@@ -45,10 +49,14 @@ export class MnuEmprestimoComponent implements OnInit {
     let hdr = new Headers();
     hdr.append('Content-Type', 'application/json');
     this.http
-    .post('http://localhost:3000/api/devolucao' + Id, { headers: hdr })
+    .post('http://localhost:3000/api/devolucao/' + Id, { headers: hdr })
     .subscribe(res => {
       let resultado = res.json();
       console.log(resultado);
+      if(res.ok)
+      {
+        alert(resultado.message);
+      }
     });
   }
 }
